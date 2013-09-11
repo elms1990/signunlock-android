@@ -18,7 +18,8 @@ public class SignPreProcess {
     List<Double> velocity;
     int numLifts;
     double totalDuration;
-    double maxVel = 0, medVel;
+    double maxVel = 0, avgVel;
+    double maxPress = 0, avgPress;
     int numXchanges, numYChanges;
     double[][] density;
     double maxX = 0, minX = 99999999, maxY = 0, minY = 99999999;
@@ -30,6 +31,7 @@ public class SignPreProcess {
         normalizePoints();
         totalDuration = drawPoints.get(drawPoints.size() - 1).time;
         calcVelocity();
+        calcPress();
         calcDirectionChanges();
         calcDensity();
         Log.d(TAG, this.toString());
@@ -38,8 +40,8 @@ public class SignPreProcess {
 
     @Override
     public String toString() {
-        return String.format("NP:%s NL:%s TD:%s MXV:%s MDV:%s XC:%s YC:%s",
-                drawPoints.size(), numLifts, totalDuration, maxVel, medVel, numXchanges, numYChanges);
+        return String.format("NP:%s NL:%s TD:%s MXV:%.2f MDV:%.2f XC:%s YC:%s MXP:%.2f MDP:%.2f",
+                drawPoints.size(), numLifts, totalDuration, maxVel, avgVel, numXchanges, numYChanges, maxPress, avgPress);
     }
 
     private void getNumLifts() {
@@ -84,9 +86,18 @@ public class SignPreProcess {
             sumV += v;
             vel.add(v);
         }
-        medVel = sumV / drawPoints.size();
+        avgVel = sumV / drawPoints.size();
 
         velocity = vel;
+    }
+
+    private void calcPress() {
+        double totalP = 0;
+        for (DrawPoint p : drawPoints) {
+            totalP += p.pressure;
+            if (p.pressure > maxPress) maxPress = p.pressure;
+        }
+        avgPress = totalP / drawPoints.size();
     }
 
     private void calcDirectionChanges() {
@@ -99,12 +110,12 @@ public class SignPreProcess {
 
             double deltaX = p2.x - p1.x;
             double deltaY = p2.y - p1.y;
-
-            if ((deltaX > 0 && directionX == 1) ||
-                    (deltaX < 0 && directionX == 0))
+            int thresh = 5;
+            if ((deltaX > thresh && directionX == 1) ||
+                    (deltaX < -thresh && directionX == 0))
                 dcX++;
-            if ((deltaY > 0 && directionY == 1) ||
-                    (deltaY < 0 && directionY == 0))
+            if ((deltaY > thresh && directionY == 1) ||
+                    (deltaY < -thresh && directionY == 0))
                 dcY++;
 
             if (deltaX > 0) directionX = 0;
@@ -147,7 +158,7 @@ public class SignPreProcess {
         for (int i = 0; i < NUMGRID; i++) {
             String line = "";
             for (int j = 0; j < NUMGRID; j++) {
-                line += " " + String.format("%.4f",density[j][i]);
+                line += " " + String.format("%.4f", density[j][i]);
             }
             Log.d(TAG, line);
         }
