@@ -2,6 +2,8 @@ package br.unicamp.signunlock;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,22 +15,26 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 import static android.graphics.Color.*;
 
 public class DrawView extends View implements OnTouchListener {
     private static final String TAG = "DrawView";
+    Context context;
     List<DrawPoint> points = new ArrayList<DrawPoint>();
     Paint paint;
     Path path;
     Canvas canvas;
-
+    Timer timer;
+    long delay = 1000 * 3;
 
     public DrawView(Context context) {
         super(context);
+        this.context = context;
+
         setFocusable(true);
         setFocusableInTouchMode(true);
-
         Button bt = new Button(context);
         bt.setText("NEW BT");
         ArrayList<View> al = new ArrayList<View>();
@@ -36,6 +42,8 @@ public class DrawView extends View implements OnTouchListener {
         this.addTouchables(al);
 
         this.setOnTouchListener(this);
+
+        timer = new Timer();
         setupDrawing();
     }
 
@@ -66,6 +74,30 @@ public class DrawView extends View implements OnTouchListener {
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
+        try {
+
+            if (timer != null)
+            {
+                timer.cancel();
+                timer.purge();
+            }
+
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+
+                    Log.d(TAG,"TIMEOUT");
+                    SignPreProcess sp = new SignPreProcess(points);
+                }
+
+            }, delay );
+
+        } catch (Exception e) {
+
+        }
+
+
         float touchX = event.getX();
         float touchY = event.getY();
         //respond to down, move and up events
