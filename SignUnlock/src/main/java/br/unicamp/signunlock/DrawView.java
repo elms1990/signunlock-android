@@ -17,6 +17,7 @@ import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+
 import static android.graphics.Color.*;
 
 public class DrawView extends View implements OnTouchListener {
@@ -35,19 +36,13 @@ public class DrawView extends View implements OnTouchListener {
 
         setFocusable(true);
         setFocusableInTouchMode(true);
-        Button bt = new Button(context);
-        bt.setText("NEW BT");
-        ArrayList<View> al = new ArrayList<View>();
-        al.add(bt);
-        this.addTouchables(al);
-
         this.setOnTouchListener(this);
 
         timer = new Timer();
         setupDrawing();
     }
 
-    private void setupDrawing(){
+    private void setupDrawing() {
 
         //prepare for drawing and setup paint stroke properties
         path = new Path();
@@ -58,7 +53,9 @@ public class DrawView extends View implements OnTouchListener {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeCap(Paint.Cap.ROUND);
+
     }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -69,15 +66,13 @@ public class DrawView extends View implements OnTouchListener {
     @Override
     public void onDraw(Canvas canvas) {
         canvas.drawPath(path, paint);
-
     }
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
         try {
 
-            if (timer != null)
-            {
+            if (timer != null) {
                 timer.cancel();
                 timer.purge();
             }
@@ -87,11 +82,12 @@ public class DrawView extends View implements OnTouchListener {
                 @Override
                 public void run() {
 
-                    Log.d(TAG,"TIMEOUT");
+                    Log.d(TAG, "TIMEOUT");
+                    path.reset();
                     SignPreProcess sp = new SignPreProcess(points);
                 }
 
-            }, delay );
+            }, delay);
 
         } catch (Exception e) {
 
@@ -100,10 +96,11 @@ public class DrawView extends View implements OnTouchListener {
 
         float touchX = event.getX();
         float touchY = event.getY();
-        //respond to down, move and up events
 
         points.add(new DrawPoint((event)));
 
+
+        //respond to down, move and up events
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 path.moveTo(touchX, touchY);
@@ -124,3 +121,4 @@ public class DrawView extends View implements OnTouchListener {
         return true;
     }
 }
+
