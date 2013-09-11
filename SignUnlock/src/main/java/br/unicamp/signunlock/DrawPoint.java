@@ -17,8 +17,10 @@ public class DrawPoint {
             y = event.getY();
             time = event.getEventTime();
             action = event.getAction();
-            Log.d("EV", event.toString());
-            Log.d("NEW POINT", this.toString());
+            pressure = event.getPressure();
+
+            //Log.d("EV", event.toString());
+           // Log.d("NEW POINT", this.toString());
 
 
         }
