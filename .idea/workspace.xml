@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AndroidConfiguredLogFilters">
+    <filters>
+      <filter>
+        <option name="logLevel" value="verbose" />
+        <option name="logMessagePattern" value="" />
+        <option name="logTagPattern" value="" />
+        <option name="name" value="Unnamed-0" />
+        <option name="packageNamePattern" value="br.unicamp.signunlock" />
+        <option name="pid" value="" />
+      </filter>
+    </filters>
+  </component>
   <component name="AndroidLayoutPreviewToolWindow">
     <option name="state">
       <GlobalState />
@@ -22,13 +34,13 @@
     </layouts>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="New " />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="DEBUG" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f1685973-c4fe-4ff9-a8bb-673426a16840" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
+    <list id="1074c894-3846-407b-bd2d-0ce38cb2514a" name="New changelist" comment="" />
     <ignored path="signunlock-android.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -94,12 +106,8 @@
       <file leaf-file-name="MainActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="9" selection-start="835" selection-end="835" vertical-scroll-proportion="0.0" vertical-offset="372" max-vertical-offset="1139">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1134#1331#0" expanded="true" />
-                <element signature="e#1320#1321#0" expanded="true" />
-              </folding>
+            <state line="17" column="27" selection-start="475" selection-end="475" vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="1139">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -107,43 +115,34 @@
       <file leaf-file-name="DrawView.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/DrawView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="4" selection-start="557" selection-end="557" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="1700">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#595#606#0" expanded="true" />
-                <element signature="e#907#913#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DrawPoint.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/DrawPoint.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="0" selection-start="482" selection-end="482" vertical-scroll-proportion="0.83468837" vertical-offset="49" max-vertical-offset="612">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activity_main.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/res/layout/activity_main.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="8" column="28" selection-start="473" selection-end="473" vertical-scroll-proportion="-5.44" vertical-offset="0" max-vertical-offset="408">
+            <state line="112" column="45" selection-start="2958" selection-end="2958" vertical-scroll-proportion="0.0" vertical-offset="1248" max-vertical-offset="1836">
               <folding />
             </state>
           </provider>
-          <provider editor-type-id="android-designer">
-            <state />
+        </entry>
+      </file>
+      <file leaf-file-name="DrawPoint.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/DrawPoint.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="19" selection-start="204" selection-end="204" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="714">
+              <folding />
+            </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="strings.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/res/values/strings.xml">
+      <file leaf-file-name="Point.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/Point.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="238">
+            <state line="4" column="3" selection-start="74" selection-end="74" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="340">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SignPreProcess.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/SignPreProcess.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="135" column="37" selection-start="3783" selection-end="3783" vertical-scroll-proportion="6.0026956" vertical-offset="0" max-vertical-offset="3009">
               <folding />
             </state>
           </provider>
@@ -169,7 +168,9 @@
       <list>
         <option value="$PROJECT_DIR$/SignUnlock/src/main/res/layout/activity_main.xml" />
         <option value="$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/MainActivity.java" />
+        <option value="$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/Point.java" />
         <option value="$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/DrawPoint.java" />
+        <option value="$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/SignPreProcess.java" />
         <option value="$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/DrawView.java" />
       </list>
     </option>
@@ -224,6 +225,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="signunlock-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="signunlock" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane">
@@ -246,11 +265,11 @@
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="AVD_for_Nexus_7_by_Google" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="MemberChooser.showClasses" value="true" />
     <property name="FullScreen" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RunManager" selected="Android Application.main">
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
@@ -398,6 +417,7 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="f1685973-c4fe-4ff9-a8bb-673426a16840" name="Default" comment="" />
+      <changelist id="1074c894-3846-407b-bd2d-0ce38cb2514a" name="New changelist" comment="" />
       <created>1378400031834</created>
       <updated>1378400031834</updated>
     </task>
@@ -425,33 +445,33 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3282572" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32776934" sideWeight="0.67232597" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3282572" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32994923" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39898133" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32767403" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32767403" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3293718" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293718" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2961083" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3282572" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25151515" sideWeight="0.6706282" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25151515" sideWeight="0.6717428" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32767403" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32776934" sideWeight="0.67232597" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32767403" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -467,51 +487,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/res/layout/activity_main.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="238">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="22" selection-start="435" selection-end="435" vertical-scroll-proportion="0.0" vertical-offset="238" max-vertical-offset="493">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1134#1331#0" expanded="true" />
-            <element signature="e#1320#1321#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/res/layout/activity_main.xml">
-      <provider selected="true" editor-type-id="android-designer">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="391">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="238">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/settings.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="563">
@@ -526,79 +501,84 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="561" />
       </provider>
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="26" selection-start="613" selection-end="655" vertical-scroll-proportion="0.0" vertical-offset="260" max-vertical-offset="1037">
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
+        <state line="27" column="26" selection-start="613" selection-end="655" vertical-scroll-proportion="0.0" vertical-offset="260" max-vertical-offset="1037" />
       </provider>
     </entry>
     <entry file="file://$APPLICATION_HOME_DIR$/DrawingView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="37" selection-start="1114" selection-end="1114" vertical-scroll-proportion="0.17027026" vertical-offset="583" max-vertical-offset="1700">
-          <folding />
-        </state>
+        <state line="46" column="37" selection-start="1114" selection-end="1114" vertical-scroll-proportion="0.17027026" vertical-offset="583" max-vertical-offset="1700" />
       </provider>
     </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-17/android.jar!/android/view/View.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1141" column="0" selection-start="51217" selection-end="51217" vertical-scroll-proportion="0.71428573" vertical-offset="19125" max-vertical-offset="19482">
-          <folding />
-        </state>
+        <state line="1141" column="0" selection-start="51217" selection-end="51217" vertical-scroll-proportion="0.71428573" vertical-offset="19125" max-vertical-offset="19482" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/res/layout/activity_main.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="28" selection-start="473" selection-end="473" vertical-scroll-proportion="0.0" vertical-offset="136" max-vertical-offset="408" />
+      </provider>
       <provider editor-type-id="android-designer">
         <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="28" selection-start="473" selection-end="473" vertical-scroll-proportion="-5.44" vertical-offset="0" max-vertical-offset="408">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="9" selection-start="835" selection-end="835" vertical-scroll-proportion="0.0" vertical-offset="372" max-vertical-offset="1139">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1134#1331#0" expanded="true" />
-            <element signature="e#1320#1321#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/DrawView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="4" selection-start="557" selection-end="557" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="1700">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#595#606#0" expanded="true" />
-            <element signature="e#907#913#0" expanded="true" />
-          </folding>
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/gen/br/unicamp/signunlock/R.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="19" selection-start="172" selection-end="172" vertical-scroll-proportion="0.2303523" vertical-offset="0" max-vertical-offset="369">
+        <state line="5" column="19" selection-start="172" selection-end="172" vertical-scroll-proportion="0.2303523" vertical-offset="0" max-vertical-offset="369" />
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-17/android/os/Handler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="110" column="0" selection-start="4398" selection-end="4398" vertical-scroll-proportion="0.0" vertical-offset="1458" max-vertical-offset="13141" />
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-17/android/widget/Toast.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="237" column="0" selection-start="7073" selection-end="7073" vertical-scroll-proportion="0.0" vertical-offset="3413" max-vertical-offset="6868" />
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/sdk/sources/android-17/java/util/Timer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="283" column="0" selection-start="10021" selection-end="10021" vertical-scroll-proportion="0.33243242" vertical-offset="4433" max-vertical-offset="9843" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="27" selection-start="475" selection-end="475" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="1139">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/Point.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="3" selection-start="74" selection-end="74" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="340">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/DrawPoint.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="0" selection-start="482" selection-end="482" vertical-scroll-proportion="0.83468837" vertical-offset="49" max-vertical-offset="612">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="11" column="19" selection-start="204" selection-end="204" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="714">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/DrawView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="45" selection-start="2958" selection-end="2958" vertical-scroll-proportion="0.0" vertical-offset="1248" max-vertical-offset="1836">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SignUnlock/src/main/java/br/unicamp/signunlock/SignPreProcess.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="135" column="37" selection-start="3783" selection-end="3783" vertical-scroll-proportion="6.0026956" vertical-offset="0" max-vertical-offset="3009">
+          <folding />
         </state>
       </provider>
     </entry>
