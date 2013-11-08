@@ -14,7 +14,7 @@
         <Button
             android:id="@+id/main_button_ok"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:onClick="okButton"
@@ -23,11 +23,30 @@
         <Button
             android:id="@+id/main_button_restart"
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="0dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:onClick="restartButton"
             android:text="Restart" />
+
+        <EditText
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Name"
+            android:ems="10"
+            android:id="@+id/editText"
+            android:layout_below="@+id/linearLayout1"
+            android:layout_alignParentLeft="true" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="authentic"
+            android:id="@+id/checkBox"
+            android:layout_below="@+id/linearLayout1"
+            android:layout_alignParentRight="true"
+            android:checked="true" />
     </LinearLayout>
 
     <br.unicamp.signunlock.DrawView
@@ -36,5 +55,7 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/linearLayout1"
         android:layout_centerHorizontal="true" />
+
+
 
 </RelativeLayout>

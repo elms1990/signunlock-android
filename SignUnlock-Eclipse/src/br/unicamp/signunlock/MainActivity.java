@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
@@ -45,12 +47,17 @@ public class MainActivity extends Activity {
     }
 
     public void okButton(View v) {
+        drawView.path.reset();
+        drawView.invalidate();
 
         numsigs++;
         List<DrawPoint> myPoints = drawView.points;
         Log.d("GOT", "" + myPoints.size());
-        saveSignature(myPoints, "/mysig" + numsigs + ".ser");
-        List<DrawPoint> myPoints2 = loadSignature("/mysig" + numsigs + ".ser");
+        String fileName = ((EditText) findViewById(R.id.editText)).getText().toString();
+        Boolean authentic = ((CheckBox) findViewById(R.id.checkBox)).isChecked();
+
+        saveSignature(myPoints, "/sig_"+fileName+numsigs+".ser");
+        List<DrawPoint> myPoints2 = loadSignature("/sig_"+fileName+numsigs+".ser");
         Log.d("RESTORED", myPoints2.get(1).toString());
     }
 
@@ -58,6 +65,7 @@ public class MainActivity extends Activity {
     public void saveSignature(List<DrawPoint> obj, String fileName) {
         try {
             // file is stored in /storage/emulated/0/mysigX.ser
+
             File myFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
                     + fileName);
             Log.d("FILENAME", myFile.getAbsolutePath());
