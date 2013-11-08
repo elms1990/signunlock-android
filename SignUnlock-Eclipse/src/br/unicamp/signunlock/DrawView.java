@@ -18,119 +18,121 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.Toast;
+
 import static android.graphics.Color.*;
 
 public class DrawView extends View implements OnTouchListener {
-	private static final String TAG = "DrawView";
-	Context context;
-	List<DrawPoint> points = new ArrayList<DrawPoint>();
-	Paint paint;
-	Path path;
-	Canvas canvas;
-	Timer timer;
-	long delay = 1000 * 3;
+    private static final String TAG = "DrawView";
+    Context context;
+    List<DrawPoint> points = new ArrayList<DrawPoint>();
+    Paint paint;
+    Path path;
+    Canvas canvas;
+    Timer timer;
+    long delay = 1000 * 3;
+    SignPreProcess processedSignature;
 
-	public DrawView(Context context) {
-		super(context);
-		this.context = context;
+    public DrawView(Context context) {
+        super(context);
+        this.context = context;
 
-		setFocusable(true);
-		setFocusableInTouchMode(true);
-		this.setOnTouchListener(this);
+        setFocusable(true);
+        setFocusableInTouchMode(true);
+        this.setOnTouchListener(this);
 
-		timer = new Timer();
-		setupDrawing();
-	}
+        timer = new Timer();
+        setupDrawing();
+    }
 
-	public DrawView(Context context, AttributeSet attrs) {
-		super(context, attrs);
+    public DrawView(Context context, AttributeSet attrs) {
+        super(context, attrs);
 
-		this.context = context;
+        this.context = context;
 
-		setFocusable(true);
-		setFocusableInTouchMode(true);
-		this.setOnTouchListener(this);
+        setFocusable(true);
+        setFocusableInTouchMode(true);
+        this.setOnTouchListener(this);
 
-		timer = new Timer();
-		setupDrawing();
-	}
-
-
-	private void setupDrawing() {
-
-		//prepare for drawing and setup paint stroke properties
-		path = new Path();
-		paint = new Paint();
-		paint.setColor(BLACK);
-		paint.setAntiAlias(true);
-		paint.setStrokeWidth(15);
-		paint.setStyle(Paint.Style.STROKE);
-		paint.setStrokeJoin(Paint.Join.ROUND);
-		paint.setStrokeCap(Paint.Cap.ROUND);
-
-	}
-
-	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		super.onSizeChanged(w, h, oldw, oldh);
-		Bitmap canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-		canvas = new Canvas(canvasBitmap);
-	}
-
-	@Override
-	public void onDraw(Canvas canvas) {
-		canvas.drawPath(path, paint);
-	}
-
-	public boolean onTouch(View view, MotionEvent event) {
-		try {
-
-			if (timer != null) {
-				timer.cancel();
-				timer.purge();
-			}
-
-			timer = new Timer();
-			timer.schedule(new TimerTask() {
-				@Override
-				public void run() {
-
-					Log.d(TAG, "TIMEOUT");
-					path.reset();
-					SignPreProcess sp = new SignPreProcess(points);
-				}
-
-			}, delay);
-
-		} catch (Exception e) {
-
-		}
+        timer = new Timer();
+        setupDrawing();
+    }
 
 
-		float touchX = event.getX();
-		float touchY = event.getY();
+    private void setupDrawing() {
 
-		points.add(new DrawPoint((event)));
+        //prepare for drawing and setup paint stroke properties
+        path = new Path();
+        paint = new Paint();
+        paint.setColor(BLACK);
+        paint.setAntiAlias(true);
+        paint.setStrokeWidth(15);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeJoin(Paint.Join.ROUND);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        Bitmap canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        canvas = new Canvas(canvasBitmap);
+    }
+
+    @Override
+    public void onDraw(Canvas canvas) {
+        canvas.drawPath(path, paint);
+    }
+
+    public boolean onTouch(View view, MotionEvent event) {
+        try {
+
+            if (timer != null) {
+                timer.cancel();
+                timer.purge();
+            }
+
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+
+                    Log.d(TAG, "TIMEOUT");
+                    path.reset();
+                    processedSignature = new SignPreProcess(points);
+                }
+
+            }, delay);
+
+        } catch (Exception e) {
+
+        }
 
 
-		//respond to down, move and up events
-		switch (event.getAction()) {
-		case MotionEvent.ACTION_DOWN:
-			path.moveTo(touchX, touchY);
-			break;
-		case MotionEvent.ACTION_MOVE:
-			path.lineTo(touchX, touchY);
-			break;
-		case MotionEvent.ACTION_UP:
-			path.lineTo(touchX, touchY);
-		//path.reset();
-			break;
-		default:
-			return false;
-		}
-		//redraw
-		invalidate();
-		return true;
-	}
+        float touchX = event.getX();
+        float touchY = event.getY();
+
+        points.add(new DrawPoint((event)));
+
+
+        //respond to down, move and up events
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                path.moveTo(touchX, touchY);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                path.lineTo(touchX, touchY);
+                break;
+            case MotionEvent.ACTION_UP:
+                path.lineTo(touchX, touchY);
+                //path.reset();
+                break;
+            default:
+                return false;
+        }
+        //redraw
+        invalidate();
+        return true;
+    }
 }
 
