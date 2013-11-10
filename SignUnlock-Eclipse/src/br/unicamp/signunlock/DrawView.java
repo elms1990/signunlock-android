@@ -1,25 +1,22 @@
 package br.unicamp.signunlock;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Path.Direction;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.widget.Button;
-import android.widget.Toast;
 
-import static android.graphics.Color.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static android.graphics.Color.BLACK;
 
 public class DrawView extends View implements OnTouchListener {
     private static final String TAG = "DrawView";
@@ -31,6 +28,7 @@ public class DrawView extends View implements OnTouchListener {
     Timer timer;
     long delay = 1000 * 3;
     SignPreProcess processedSignature;
+    double[] featureVector;
 
     public DrawView(Context context) {
         super(context);
@@ -65,7 +63,7 @@ public class DrawView extends View implements OnTouchListener {
         paint = new Paint();
         paint.setColor(BLACK);
         paint.setAntiAlias(true);
-        paint.setStrokeWidth(15);
+        paint.setStrokeWidth(5);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeCap(Paint.Cap.ROUND);
@@ -100,6 +98,7 @@ public class DrawView extends View implements OnTouchListener {
                     Log.d(TAG, "TIMEOUT");
                     path.reset();
                     processedSignature = new SignPreProcess(points);
+                    featureVector = processedSignature.getFeatureVector();
                 }
 
             }, delay);

@@ -13,14 +13,21 @@ public class SignPreProcess {
 
     private static final String TAG = "PROCESS";
 
+    final int AMSIZE = 10;
+    final int NUMGRID = 10;
+
     List<DrawPoint> drawPoints;
     List<Point> points;
     List<Double> velocity;
+    double[] amPoints;
+    double[] amVelocity;
     int numLifts;
     double totalDuration;
     double maxVel = 0, avgVel;
     double maxPress = 0, avgPress;
     int numXchanges, numYChanges;
+    double widthHeightRatio;
+
     double[][] density;
     double maxX = 0, minX = 99999999, maxY = 0, minY = 99999999;
 
@@ -34,6 +41,7 @@ public class SignPreProcess {
         calcPress();
         calcDirectionChanges();
         calcDensity();
+        amostratePoints();
         Log.d(TAG, this.toString());
 
     }
@@ -72,6 +80,8 @@ public class SignPreProcess {
             if (p.y > maxY) maxY = p.y;
             if (p.y < minY) minY = p.y;
         }
+
+        widthHeightRatio = (maxX - minX)/(maxY - minY);
     }
 
 
@@ -130,9 +140,8 @@ public class SignPreProcess {
     }
 
     private void calcDensity() {
-        int NUMGRID = 10;
-        int[][] countdensity = new int[NUMGRID + 1][NUMGRID + 1];
-        density = new double[NUMGRID + 1][NUMGRID + 1];
+        int[][] countdensity = new int[NUMGRID+1][NUMGRID+1];
+        density = new double[NUMGRID+1][NUMGRID+1];
         double xSize = 1.0 / NUMGRID;
         double ySize = 1.0 / NUMGRID;
 
@@ -155,12 +164,25 @@ public class SignPreProcess {
         }
 
         //print density
-        for (int i = 0; i < NUMGRID; i++) {
-            String line = "";
-            for (int j = 0; j < NUMGRID; j++) {
-                line += " " + String.format("%.4f", density[j][i]);
-            }
-            Log.d(TAG, line);
+//        for (int i = 0; i < NUMGRID; i++) {
+//            String line = "";
+//            for (int j = 0; j < NUMGRID; j++) {
+//                line += " " + String.format("%.4f", density[j][i]);
+//            }
+//            Log.d(TAG, line);
+//        }
+
+    }
+
+    private void amostratePoints(){
+        int deltaAm = points.size()/AMSIZE;
+        amPoints = new double[2*AMSIZE];
+        amVelocity = new double[AMSIZE];
+
+        for(int i=0; i<AMSIZE; i++){
+            amPoints[2*i] = points.get(i*deltaAm).x;
+            amPoints[2*i+1] = points.get(i*deltaAm).x;
+            amVelocity[i] = velocity.get(i*deltaAm).doubleValue();
         }
 
     }
@@ -169,6 +191,33 @@ public class SignPreProcess {
         for (Point p : points) {
             Log.d("POINT", "" + p.x + ", " + p.y);
         }
+    }
+
+    public double[] getFeatureVector(){
+        double []fv = new double[10 + 3*AMSIZE + NUMGRID*NUMGRID + 10];
+        int i=0;
+
+        fv[i++]=numLifts;
+        fv[i++]= totalDuration;
+        fv[i++]= widthHeightRatio;
+        fv[i++]= totalDuration;
+        fv[i++]= maxVel;
+        fv[i++]= avgVel;
+        fv[i++]= maxPress;
+        fv[i++]= avgPress;
+        fv[i++]= numXchanges;
+        fv[i++]= numYChanges;
+
+        for(int j=0; j<2*AMSIZE;j++)
+            fv[i++] = amPoints[j];
+        for(int j=0;i<AMSIZE;j++)
+            fv[i++] = amVelocity[j];
+
+        for(int j=0;j<NUMGRID;j++)
+            for(int k=0; k<NUMGRID;k++)
+                fv[i++] = density[k][j];
+
+        return fv;
     }
 
 

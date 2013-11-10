@@ -1,10 +1,13 @@
 package br.unicamp.signunlock;
 
+import android.util.Log;
+
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.data.DataSet;
-import org.neuroph.core.data.DataSetRow;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.Perceptron;
+
+import java.util.List;
 
 public class SignatureNeuralNetwork {
     private NeuralNetwork mNeuralNetwork;
@@ -12,11 +15,16 @@ public class SignatureNeuralNetwork {
     private static SignatureNeuralNetwork sInstance = null;
     private DataSet trainingSet;
 
-    private SignatureNeuralNetwork() {
-        int numInput = 2;
-        int numOutput = 1;
-        mNeuralNetwork = new Perceptron(numInput, numOutput);
+    SignatureNeuralNetwork(){
+
+    }
+
+    SignatureNeuralNetwork(List<double[]> fvs) {
+        int numInput = fvs.get(0).length;
+        int numOutput = 2;
+        mNeuralNetwork = new MultiLayerPerceptron(numInput, numOutput);
         trainingSet = new DataSet(numInput, numOutput);
+        learn(fvs);
     }
 
     public static void createInstance() {
@@ -29,29 +37,36 @@ public class SignatureNeuralNetwork {
         return sInstance;
     }
 
-    public void learn() {
+    public void learn(List<double[]> fvs) {
+        //double[] stockArr = new double[10];
+        //trainingSet.addRow(stockArr, stockArr);
+
         //example, do that for drawPoints
-        trainingSet.addRow(
-                new DataSetRow(new double[]{0, 0}, //inputs
-                        new double[]{0}) //outputs
-        );
-        // learn the training set
+        for(double[] fv : fvs){
+            trainingSet.addRow(
+                    fv, //inputs
+                    new double[]{1,0}); //outputs
+        }
+
+         // learn the training set
         mNeuralNetwork.learn(trainingSet);
         // save the trained network into file
         mNeuralNetwork.save("myperceptron.nnet");
+        Log.d("NNET", "saved model");
 
     }
 
-    public void test() {
+    public double[] test(double[] testV) {
         // load the saved network
-        NeuralNetwork neuralNetwork =
-                NeuralNetwork.createFromFile("myperceptron.nnet");
+        //NeuralNetwork neuralNetwork =
+        //        NeuralNetwork.createFromFile("myperceptron.nnet");
 
         // set network input
-        neuralNetwork.setInput(1, 1);
+        mNeuralNetwork.setInput(testV);
         // calculate network
-        neuralNetwork.calculate();
+        mNeuralNetwork.calculate();
         // get network output
-        double[] networkOutput = neuralNetwork.getOutput();
+        double[] networkOutput = mNeuralNetwork.getOutput();
+        return networkOutput;
     }
 }

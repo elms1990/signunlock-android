@@ -1,6 +1,5 @@
 package br.unicamp.signunlock;
 
-import android.util.Log;
 import android.view.MotionEvent;
 
 import java.io.Serializable;
