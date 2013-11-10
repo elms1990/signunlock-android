@@ -38,6 +38,7 @@ public class SignPreProcess {
         normalizePoints();
         totalDuration = drawPoints.get(drawPoints.size() - 1).time;
         calcVelocity();
+        normalizeVelocity();
         calcPress();
         calcDirectionChanges();
         calcDensity();
@@ -71,6 +72,13 @@ public class SignPreProcess {
 
         }
 
+    }
+
+    private void normalizeVelocity(){
+        for(double vel :velocity){
+            velocity.remove(vel);
+            velocity.add(vel/maxVel);
+        }
     }
 
     private void calcMinMaxvals() {
