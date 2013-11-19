@@ -38,8 +38,6 @@ public class ValidateSignatureActivity extends Activity {
 		mCluster.addFeature(FeatureStack.getFeatures());
 		mCluster.calculateCentroid();
 		
-		Log.e("FeatureVectorSize", "" + mCluster.getCentroid().length);
-		
 		mBestScoreText = (TextView)findViewById(R.id.validate_best_score);
 		mLastScoreText = (TextView)findViewById(R.id.validate_last_score);
 		mThresholdText = (EditText)findViewById(R.id.validate_threshold);
@@ -63,6 +61,13 @@ public class ValidateSignatureActivity extends Activity {
         }
 
         double[] featureVector = (new SignPreProcess(drawView.points)).getFeatureVector();
+        
+        String ss = "";
+        for (int i = 0; i < featureVector.length; i++) {
+        	 ss += featureVector[i] + " ";
+        }
+        Log.e("SS", ss);
+        
         double edist = mCluster.euclideanDistance(featureVector);
         boolean ova = mCluster.oneVsAllEuclideanDistance(featureVector, mThreshold);
         

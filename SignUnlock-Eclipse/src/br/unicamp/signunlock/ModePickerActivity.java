@@ -10,7 +10,7 @@ public class ModePickerActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_mode_picker);
 		
-//		SignPreProcess.NUMGRID = 30;
+		SignPreProcess.NUMGRID = 10;
 	}
 	
 	public void learnSignature(View v) {
