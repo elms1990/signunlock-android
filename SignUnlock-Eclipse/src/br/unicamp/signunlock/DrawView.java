@@ -97,8 +97,10 @@ public class DrawView extends View implements OnTouchListener {
 
                     Log.d(TAG, "TIMEOUT");
                     path.reset();
-                    processedSignature = new SignPreProcess(points);
-                    featureVector = processedSignature.getFeatureVector();
+//                    synchronized(points) {
+//                    	processedSignature = new SignPreProcess(points);
+//                    	featureVector = processedSignature.getFeatureVector();
+//                    }
                 }
 
             }, delay);

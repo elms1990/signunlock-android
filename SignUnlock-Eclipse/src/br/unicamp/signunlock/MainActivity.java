@@ -41,23 +41,23 @@ public class MainActivity extends Activity {
         drawView.path.reset();
         drawView.invalidate();
 
-
         double[] featureVector = (new SignPreProcess(drawView.points)).getFeatureVector();
+        FeatureStack.addVector(featureVector);
         FVs.add(featureVector);
 
         numsigs++;
         List<DrawPoint> myPoints = drawView.points;
         Log.d("GOT", "" + myPoints.size());
         String fileName = ((EditText) findViewById(R.id.editText)).getText().toString();
-        Boolean authentic = ((CheckBox) findViewById(R.id.checkBox)).isChecked();
+//        Boolean authentic = ((CheckBox) findViewById(R.id.checkBox)).isChecked();
 
         saveSignature(myPoints, "/sig_"+fileName+numsigs+".ser");
-        List<DrawPoint> myPoints2 = loadSignature("/sig_"+fileName+numsigs+".ser");
+//        List<DrawPoint> myPoints2 = loadSignature("/sig_"+fileName+numsigs+".ser");
 
 //        if(numsigs == 5){
 //            SignatureNeuralNetwork snn = new SignatureNeuralNetwork(FVs);
 //        }
-
+        drawView.points.clear();
     }
 
 

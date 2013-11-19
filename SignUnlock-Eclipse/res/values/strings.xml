@@ -4,5 +4,7 @@
     <string name="app_name">SignUnlock</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_mode_picker">ModePickerActivity</string>
+    <string name="title_activity_validate_signature">ValidateSignatureActivity</string>
 
 </resources>

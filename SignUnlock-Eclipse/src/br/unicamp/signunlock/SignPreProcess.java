@@ -2,8 +2,11 @@ package br.unicamp.signunlock;
 
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -30,6 +33,8 @@ public class SignPreProcess {
 
     double[][] density;
     double maxX = 0, minX = 99999999, maxY = 0, minY = 99999999;
+    
+    private double[] mFeatureVector = null;
 
     public SignPreProcess(List<DrawPoint> lp) {
         drawPoints = lp;
@@ -75,10 +80,13 @@ public class SignPreProcess {
     }
 
     private void normalizeVelocity(){
+    	List<Double> dummy = new ArrayList<Double>();
+    	
         for(double vel :velocity){
-            velocity.remove(vel);
-            velocity.add(vel/maxVel);
+        	dummy.add(vel/maxVel);
         }
+        
+        velocity = dummy;
     }
 
     private void calcMinMaxvals() {
@@ -200,32 +208,96 @@ public class SignPreProcess {
             Log.d("POINT", "" + p.x + ", " + p.y);
         }
     }
+    
+    private void purgeVector() {
+    	mFeatureVector = new double[0];
+    }
+    
+    private void addFeature(double feat) {
+    	addFeature(new double[] { feat });
+    }
+    
+    private void addFeature(double[] feat) {
+    	double[] concatenated = new double[feat.length + mFeatureVector.length];
+    	
+    	System.arraycopy(mFeatureVector, 0, concatenated, 0, mFeatureVector.length);
+    	System.arraycopy(feat, 0, concatenated, mFeatureVector.length, feat.length);
+    	
+    	mFeatureVector = concatenated;
+    }
+    
+    private void addFeature(double[][] feat) {
+    	int size = 0;
+    	for (int j = 0; j < feat.length; j++) {
+    		for (int i = 0; i < feat[j].length; i++) {
+    			size++;
+    		}
+    	}
+    	
+    	double[] linearized = new double[size];  	
+    	for (int j = 0; j < feat.length; j++) {
+    		for (int i = 0; i < feat[j].length; i++) {
+    			linearized[i + j*feat.length] = feat[j][i];
+    		}
+    	}
+    	
+    	addFeature(linearized);
+    }
 
     public double[] getFeatureVector(){
-        double []fv = new double[10 + 3*AMSIZE + NUMGRID*NUMGRID + 10];
-        int i=0;
+    	purgeVector();
+    	
+    	addFeature(numLifts);
+//    	addFeature(totalDuration);
+    	addFeature(widthHeightRatio);
+    	addFeature(maxVel);
+    	addFeature(avgVel);
+    	addFeature(maxPress);
+    	addFeature(avgPress);
+    	addFeature(numXchanges);
+    	addFeature(numYChanges);
+    	addFeature(amPoints);
+    	addFeature(amVelocity);
+    	addFeature(density);
+    	
+//    	int h = (10 + 3*AMSIZE + NUMGRID*NUMGRID + 10);
+//    	int size = 0;
+//    	for (int j = 0; j < density.length; j++) {
+//    		for (int i = 0; i < density[j].length; i++) {
+//    			size++;
+//    		}
+//    	}
+//    	for (int i = 0; i < mFeatureVector.length; i++) {
+//    		Log.e("" + i, ""+ mFeatureVector[i]);
+//    	}
+//    	Log.e("HUEHUEHUEHUE", ""+ h + " new size: " + mFeatureVector.length + " " + amPoints.length + " " + amVelocity.length + " " + density.length * density[0].length + " " + size);
+//        double []fv = new double[10 + 3*AMSIZE + (NUMGRID+1)*(NUMGRID+1) + 10];
+//        int i=0;
+//
+//        fv[i++]=numLifts;
+//        fv[i++]= totalDuration;
+//        fv[i++]= widthHeightRatio;
+//        fv[i++]= totalDuration;
+//        fv[i++]= maxVel;
+//        fv[i++]= avgVel;
+//        fv[i++]= maxPress;
+//        fv[i++]= avgPress;
+//        fv[i++]= numXchanges;
+//        fv[i++]= numYChanges;
+//
+//        for(int j=0; j<2*AMSIZE;j++)
+//            fv[i++] = amPoints[j];
+//        for(int j=0;i<AMSIZE;j++)
+//            fv[i++] = amVelocity[j];
+//
+//        for(int j=0;j<NUMGRID+1;j++)
+//            for(int k=0; k<NUMGRID+1;k++)
+//                fv[i++] = density[k][j];
 
-        fv[i++]=numLifts;
-        fv[i++]= totalDuration;
-        fv[i++]= widthHeightRatio;
-        fv[i++]= totalDuration;
-        fv[i++]= maxVel;
-        fv[i++]= avgVel;
-        fv[i++]= maxPress;
-        fv[i++]= avgPress;
-        fv[i++]= numXchanges;
-        fv[i++]= numYChanges;
-
-        for(int j=0; j<2*AMSIZE;j++)
-            fv[i++] = amPoints[j];
-        for(int j=0;i<AMSIZE;j++)
-            fv[i++] = amVelocity[j];
-
-        for(int j=0;j<NUMGRID;j++)
-            for(int k=0; k<NUMGRID;k++)
-                fv[i++] = density[k][j];
-
-        return fv;
+//        for (int iu = 0; iu < fv.length; iu++) {
+//    		Log.e("" + iu, ""+ fv[iu] + " " + mFeatureVector[iu]);
+//    	}
+        return mFeatureVector;
     }
 
 
