@@ -16,8 +16,8 @@ public class SignPreProcess {
 
     private static final String TAG = "PROCESS";
 
-    final int AMSIZE = 10;
-    final int NUMGRID = 10;
+    public static int AMSIZE = 10;
+    public static int NUMGRID = 10;
 
     List<DrawPoint> drawPoints;
     List<Point> points;

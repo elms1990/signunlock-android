@@ -27,11 +27,18 @@ public class ValidateSignatureActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_validate_signature);
 		
+		if (FeatureStack.getFeatures().size() == 0) {
+			finish();
+			return;
+		}
+		
 		drawView = (DrawView) findViewById(R.id.home_signature_view);
         drawView.requestFocus();
 		mCluster = new Cluster();
 		mCluster.addFeature(FeatureStack.getFeatures());
 		mCluster.calculateCentroid();
+		
+		Log.e("FeatureVectorSize", "" + mCluster.getCentroid().length);
 		
 		mBestScoreText = (TextView)findViewById(R.id.validate_best_score);
 		mLastScoreText = (TextView)findViewById(R.id.validate_last_score);
@@ -50,15 +57,19 @@ public class ValidateSignatureActivity extends Activity {
     public void okButton(View v) {
         drawView.path.reset();
         drawView.invalidate();
+        
+        if (drawView.points.size() == 0) {
+        	return;
+        }
 
         double[] featureVector = (new SignPreProcess(drawView.points)).getFeatureVector();
         double edist = mCluster.euclideanDistance(featureVector);
+        boolean ova = mCluster.oneVsAllEuclideanDistance(featureVector, mThreshold);
         
         if (mBestScore > edist) {
         	mBestScore = edist;
         }
         mLastScore = edist;
-        
         
         mBestScoreText.setText("Best: " + mBestScore);
         mLastScoreText.setText("Last: " + mLastScore);

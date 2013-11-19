@@ -2,17 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:gravity="center"
     tools:context=".ModePickerActivity" >
 
     <Button
         android:id="@+id/mode_picker_button_learn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:text="Learn Signature"
         android:onClick="learnSignature" />
     
@@ -20,10 +16,18 @@
         android:id="@+id/mode_picker_button_validate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:layout_below="@id/mode_picker_button_learn"
         android:layout_marginTop="16dp"
         android:text="Validate Signature"
         android:onClick="validateSignature" />
+    
+    <Button
+        android:id="@+id/mode_picker_button_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mode_picker_button_validate"
+        android:layout_marginTop="16dp"
+        android:text="Clear Training"
+        android:onClick="clearTraining" />
 
 </RelativeLayout>
