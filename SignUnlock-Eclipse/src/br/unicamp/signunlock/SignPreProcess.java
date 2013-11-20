@@ -74,10 +74,11 @@ public class SignPreProcess {
         points = new ArrayList<Point>();
 
         for (DrawPoint dp : drawPoints) {
-            Point p = new Point((dp.x - minX) / (maxX - minX),
-                    (dp.y - minY) / (maxY - minY));
-            points.add(p);
-
+            if(dp.action == MotionEvent.ACTION_MOVE){
+                Point p = new Point((dp.x - minX) / (maxX - minX),
+                        (dp.y - minY) / (maxY - minY));
+                points.add(p);
+            }
         }
 
     }
@@ -109,12 +110,14 @@ public class SignPreProcess {
         double sumV = 0;
         List<Double> vel = new ArrayList<Double>();
         for (int i = 0; i < drawPoints.size() - 1; i++) {
-            v = drawPoints.get(i).distanceTo(drawPoints.get(i + 1));
-            v /= MAXVELPOSSIBLE;
-            if (v > maxVel)
-                maxVel = v;
-            sumV += v;
-            vel.add(v);
+            if(drawPoints.get(i).action == MotionEvent.ACTION_MOVE){
+                v = drawPoints.get(i).distanceTo(drawPoints.get(i + 1));
+                v /= MAXVELPOSSIBLE;
+                if (v > maxVel)
+                    maxVel = v;
+                sumV += v;
+                vel.add(v);
+            }
         }
         avgVel = sumV / drawPoints.size();
         Log.d("MAXVEL", ""+maxVel);
