@@ -19,12 +19,12 @@ public class SignatureNeuralNetwork {
 
     }
 
-    SignatureNeuralNetwork(List<double[]> fvs) {
-        int numInput = fvs.get(0).length;
-        int numOutput = 2;
+    SignatureNeuralNetwork(List<double[]> features, List<double[]> classes) {
+        int numInput = features.get(0).length;
+        int numOutput = classes.get(0).length;
         mNeuralNetwork = new MultiLayerPerceptron(numInput, numOutput);
         trainingSet = new DataSet(numInput, numOutput);
-        learn(fvs);
+        learn(features, classes);
     }
 
     public static void createInstance() {
@@ -37,15 +37,12 @@ public class SignatureNeuralNetwork {
         return sInstance;
     }
 
-    public void learn(List<double[]> fvs) {
-        //double[] stockArr = new double[10];
-        //trainingSet.addRow(stockArr, stockArr);
+    public void learn(List<double[]> features, List<double[]> classes) {
 
-        //example, do that for drawPoints
-        for(double[] fv : fvs){
+        for(int i=0; i<features.size(); i++){
             trainingSet.addRow(
-                    fv, //inputs
-                    new double[]{1,0}); //outputs
+                    features.get(i), //inputs
+                    classes.get(i)); //outputs
         }
 
          // learn the training set

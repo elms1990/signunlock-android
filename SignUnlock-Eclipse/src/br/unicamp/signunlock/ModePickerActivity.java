@@ -24,6 +24,6 @@ public class ModePickerActivity extends Activity {
 	}
 	
 	public void clearTraining(View v) {
-		FeatureStack.clearStack();
+		TrainingStack.clearStack();
 	}
 }

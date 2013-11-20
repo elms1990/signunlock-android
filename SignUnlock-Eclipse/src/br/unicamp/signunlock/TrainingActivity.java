@@ -14,14 +14,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class TrainingActivity extends Activity {
     private DrawView drawView;
     int numsigs = 0;
-    List<double[]> FVs = new ArrayList<double[]>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,21 +39,25 @@ public class TrainingActivity extends Activity {
         drawView.path.reset();
         drawView.invalidate();
 
-        double[] featureVector = (new SignPreProcess(drawView.points)).getFeatureVector();
-        FeatureStack.addVector(featureVector);
-        FVs.add(featureVector);
+        Boolean authentic = ((CheckBox) findViewById(R.id.checkBox)).isChecked();
 
-        numsigs++;
+        double[] featureVector = (new SignPreProcess(drawView.points)).getFeatureVector();
+        TrainingStack.addFeature(featureVector);
+        if(authentic)
+            TrainingStack.addClass(new double[]{1,0});
+        else
+            TrainingStack.addClass(new double[]{0,1});
+
         List<DrawPoint> myPoints = drawView.points;
         Log.d("GOT", "" + myPoints.size());
         String fileName = ((EditText) findViewById(R.id.editText)).getText().toString();
-//        Boolean authentic = ((CheckBox) findViewById(R.id.checkBox)).isChecked();
 
-        saveSignature(myPoints, "/sig_"+fileName+numsigs+".ser");
-//        List<DrawPoint> myPoints2 = loadSignature("/sig_"+fileName+numsigs+".ser");
+        saveSignature(myPoints, "/sig_"+fileName+ TrainingStack.getStackSize()+".ser");
+//        List<DrawPoint> myPoints2 = loadSignature("/sig_"+fileName+TrainingStack.getStackSize()+".ser");
 
-//        if(numsigs == 5){
-//            SignatureNeuralNetwork snn = new SignatureNeuralNetwork(FVs);
+//        if(TrainingStack.getStackSize() == 3){
+//            Log.d("STACK5", "OI OI OI");
+//            SignatureNeuralNetwork snn = new SignatureNeuralNetwork(TrainingStack.getFeatures(), TrainingStack.getClasses());
 //        }
         drawView.points.clear();
     }

@@ -1,11 +1,8 @@
 package br.unicamp.signunlock;
 
-import java.util.List;
-
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,7 +24,7 @@ public class ValidateSignatureActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_validate_signature);
 		
-		if (FeatureStack.getFeatures().size() == 0) {
+		if (TrainingStack.getFeatures().size() == 0) {
 			finish();
 			return;
 		}
@@ -35,7 +32,7 @@ public class ValidateSignatureActivity extends Activity {
 		drawView = (DrawView) findViewById(R.id.home_signature_view);
         drawView.requestFocus();
 		mCluster = new Cluster();
-		mCluster.addFeature(FeatureStack.getFeatures());
+		mCluster.addFeature(TrainingStack.getFeatures());
 		mCluster.calculateCentroid();
 		
 		mBestScoreText = (TextView)findViewById(R.id.validate_best_score);
@@ -61,7 +58,6 @@ public class ValidateSignatureActivity extends Activity {
         }
 
         double[] featureVector = (new SignPreProcess(drawView.points)).getFeatureVector();
-        
         String ss = "";
         for (int i = 0; i < featureVector.length; i++) {
         	 ss += featureVector[i] + " ";
