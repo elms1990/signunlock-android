@@ -1,72 +1,43 @@
 package br.unicamp.signunlock;
 
-import android.util.Log;
-
 import org.neuroph.core.NeuralNetwork;
-import org.neuroph.core.data.DataSet;
+import org.neuroph.core.learning.SupervisedTrainingElement;
+import org.neuroph.core.learning.TrainingElement;
+import org.neuroph.core.learning.TrainingSet;
 import org.neuroph.nnet.MultiLayerPerceptron;
-import org.neuroph.nnet.Perceptron;
+import org.neuroph.nnet.learning.BackPropagation;
 
 import java.util.List;
 
 public class SignatureNeuralNetwork {
     private NeuralNetwork mNeuralNetwork;
 
-    private static SignatureNeuralNetwork sInstance = null;
-    private DataSet trainingSet;
-
-    SignatureNeuralNetwork(){
-
+    public void initialize(int... layersSize) {
+    	mNeuralNetwork = new MultiLayerPerceptron(layersSize);
     }
-
-    SignatureNeuralNetwork(List<double[]> fvs) {
-        int numInput = fvs.get(0).length;
-        int numOutput = 2;
-        mNeuralNetwork = new MultiLayerPerceptron(numInput, numOutput);
-        trainingSet = new DataSet(numInput, numOutput);
-        learn(fvs);
+    
+    public void reset() {
+    	mNeuralNetwork.reset();
     }
-
-    public static void createInstance() {
-        if (sInstance == null) {
-            sInstance = new SignatureNeuralNetwork();
-        }
-    }
-
-    public static SignatureNeuralNetwork getInstance() {
-        return sInstance;
+    
+    private TrainingSet<TrainingElement> convert(List<double[]> featureVector) {
+    	TrainingSet<TrainingElement> set = new TrainingSet<TrainingElement>(featureVector.get(0).length);
+    	
+    	for (double[] vec : featureVector) {
+    		set.addElement(new SupervisedTrainingElement(vec, new double[] { 1 }));
+    	}
+    	
+    	return set;
     }
 
     public void learn(List<double[]> fvs) {
-        //double[] stockArr = new double[10];
-        //trainingSet.addRow(stockArr, stockArr);
-
-        //example, do that for drawPoints
-        for(double[] fv : fvs){
-            trainingSet.addRow(
-                    fv, //inputs
-                    new double[]{1,0}); //outputs
-        }
-
-         // learn the training set
-        mNeuralNetwork.learn(trainingSet);
-        // save the trained network into file
-        mNeuralNetwork.save("myperceptron.nnet");
-        Log.d("NNET", "saved model");
-
+    	mNeuralNetwork.learn(convert(fvs), new BackPropagation());
     }
 
-    public double[] test(double[] testV) {
-        // load the saved network
-        //NeuralNetwork neuralNetwork =
-        //        NeuralNetwork.createFromFile("myperceptron.nnet");
-
-        // set network input
-        mNeuralNetwork.setInput(testV);
-        // calculate network
-        mNeuralNetwork.calculate();
-        // get network output
-        double[] networkOutput = mNeuralNetwork.getOutput();
-        return networkOutput;
+    public double test(double[] testV) {
+    	mNeuralNetwork.setInput(testV);
+    	mNeuralNetwork.calculate();
+    	
+    	return mNeuralNetwork.getOutput()[0];
     }
 }

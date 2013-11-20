@@ -248,7 +248,6 @@ public class SignPreProcess {
     	purgeVector();
     	
     	addFeature(numLifts);
-//    	addFeature(totalDuration);
     	addFeature(widthHeightRatio);
     	addFeature(maxVel);
     	addFeature(avgVel);
@@ -260,43 +259,6 @@ public class SignPreProcess {
     	addFeature(amVelocity);
     	addFeature(density);
     	
-//    	int h = (10 + 3*AMSIZE + NUMGRID*NUMGRID + 10);
-//    	int size = 0;
-//    	for (int j = 0; j < density.length; j++) {
-//    		for (int i = 0; i < density[j].length; i++) {
-//    			size++;
-//    		}
-//    	}
-//    	for (int i = 0; i < mFeatureVector.length; i++) {
-//    		Log.e("" + i, ""+ mFeatureVector[i]);
-//    	}
-//    	Log.e("HUEHUEHUEHUE", ""+ h + " new size: " + mFeatureVector.length + " " + amPoints.length + " " + amVelocity.length + " " + density.length * density[0].length + " " + size);
-//        double []fv = new double[10 + 3*AMSIZE + (NUMGRID+1)*(NUMGRID+1) + 10];
-//        int i=0;
-//
-//        fv[i++]=numLifts;
-//        fv[i++]= totalDuration;
-//        fv[i++]= widthHeightRatio;
-//        fv[i++]= totalDuration;
-//        fv[i++]= maxVel;
-//        fv[i++]= avgVel;
-//        fv[i++]= maxPress;
-//        fv[i++]= avgPress;
-//        fv[i++]= numXchanges;
-//        fv[i++]= numYChanges;
-//
-//        for(int j=0; j<2*AMSIZE;j++)
-//            fv[i++] = amPoints[j];
-//        for(int j=0;i<AMSIZE;j++)
-//            fv[i++] = amVelocity[j];
-//
-//        for(int j=0;j<NUMGRID+1;j++)
-//            for(int k=0; k<NUMGRID+1;k++)
-//                fv[i++] = density[k][j];
-
-//        for (int iu = 0; iu < fv.length; iu++) {
-//    		Log.e("" + iu, ""+ fv[iu] + " " + mFeatureVector[iu]);
-//    	}
         return mFeatureVector;
     }
 
