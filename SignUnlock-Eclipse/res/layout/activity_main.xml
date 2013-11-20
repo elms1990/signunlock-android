@@ -38,6 +38,15 @@
             android:id="@+id/editText"
             android:layout_below="@+id/linearLayout1"
             android:layout_alignParentLeft="true" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:checked="true"
+            android:text="valid" />
+
     </LinearLayout>
 
     <br.unicamp.signunlock.DrawView

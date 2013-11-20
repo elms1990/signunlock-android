@@ -20,7 +20,7 @@ public class ValidateSignatureActivity extends Activity {
 	private double mLastScore;
 	private double mThreshold = 50.f;
 	
-	private SignatureNeuralNetwork mNNetwork;
+//	private SignatureNeuralNetwork mNNetwork;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,9 +41,9 @@ public class ValidateSignatureActivity extends Activity {
 		mLastScoreText = (TextView)findViewById(R.id.validate_last_score);
 		mThresholdText = (EditText)findViewById(R.id.validate_threshold);
 		
-		mNNetwork = new SignatureNeuralNetwork();
-		mNNetwork.initialize(FeatureStack.getFeatures().get(0).length, 1);
-		mNNetwork.learn(FeatureStack.getFeatures());
+//		mNNetwork = new SignatureNeuralNetwork();
+//		mNNetwork.initialize(FeatureStack.getFeatures().get(0).length, 1);
+//		mNNetwork.learn(FeatureStack.getFeatures());
 	}
 	
 	public void thresholdButton(View v) {
@@ -65,7 +65,7 @@ public class ValidateSignatureActivity extends Activity {
 
         double[] featureVector = (new SignPreProcess(drawView.points)).getFeatureVector();
         
-        double nnScore = mNNetwork.test(featureVector);  
+//        double nnScore = mNNetwork.test(featureVector);  
         
         double edist = mCluster.euclideanDistance(featureVector);
         edist *= 100;
@@ -86,9 +86,9 @@ public class ValidateSignatureActivity extends Activity {
         mLastScoreText.setText("Last: " + String.valueOf(mLastScore).substring(0, 5));
         
         if (edist < mThreshold) {
-        	Toast.makeText(this, mCluster.estimateThreshold() + " Unlocked Device. " + nnScore, Toast.LENGTH_SHORT).show();
+        	Toast.makeText(this, mCluster.estimateThreshold() + " Unlocked Device. ", Toast.LENGTH_SHORT).show();
         } else {
-        	Toast.makeText(this, mCluster.estimateThreshold() + " YOU SHALL NOT PASS. " + nnScore, Toast.LENGTH_SHORT).show();
+        	Toast.makeText(this, mCluster.estimateThreshold() + " YOU SHALL NOT PASS. ", Toast.LENGTH_SHORT).show();
         }
         
         drawView.points.clear();
