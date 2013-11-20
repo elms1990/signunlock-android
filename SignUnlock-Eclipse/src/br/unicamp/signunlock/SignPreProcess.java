@@ -16,7 +16,7 @@ public class SignPreProcess {
 
     private static final String TAG = "PROCESS";
 
-    public static int AMSIZE = 10;
+    public static int AMSIZE = 20;
     public static int NUMGRID = 10;
 
     //determined experimentally
@@ -44,7 +44,7 @@ public class SignPreProcess {
         getNumLifts();
         calcMinMaxvals();
         normalizePoints();
-        totalDuration = drawPoints.get(drawPoints.size() - 1).time;
+        totalDuration = drawPoints.get(drawPoints.size() - 1).time - drawPoints.get(0).time;
         calcVelocity();
         normalizeVelocity();
         calcPress();
