@@ -22,13 +22,13 @@ public class DrawView extends View implements OnTouchListener {
     private static final String TAG = "DrawView";
     Context context;
     List<DrawPoint> points = new ArrayList<DrawPoint>();
+    Canvas canvas;
+    Bitmap canvasBitmap;
     Paint paint;
     Path path;
-    Canvas canvas;
     Timer timer;
     long delay = 1000 * 3;
-    SignPreProcess processedSignature;
-    double[] featureVector;
+    float lastX=0, lastY=0;
 
     public DrawView(Context context) {
         super(context);
@@ -67,19 +67,21 @@ public class DrawView extends View implements OnTouchListener {
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeCap(Paint.Cap.ROUND);
-
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        Bitmap canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        canvasBitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(canvasBitmap);
     }
 
     @Override
     public void onDraw(Canvas canvas) {
         canvas.drawPath(path, paint);
+        for(DrawPoint p : points){
+            canvas.drawPoint((float)p.x, (float)p.y, paint);
+        }
     }
 
     public boolean onTouch(View view, MotionEvent event) {
@@ -95,8 +97,8 @@ public class DrawView extends View implements OnTouchListener {
                 @Override
                 public void run() {
 
-                    Log.d(TAG, "TIMEOUT");
-                    path.reset();
+                    //Log.d(TAG, "TIMEOUT");
+                    //path.reset();
 //                    synchronized(points) {
 //                    	processedSignature = new SignPreProcess(points);
 //                    	featureVector = processedSignature.getFeatureVector();
@@ -115,18 +117,17 @@ public class DrawView extends View implements OnTouchListener {
 
         points.add(new DrawPoint((event)));
 
-
         //respond to down, move and up events
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 path.moveTo(touchX, touchY);
+                //path.lineTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_MOVE:
                 path.lineTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_UP:
                 path.lineTo(touchX, touchY);
-                //path.reset();
                 break;
             default:
                 return false;
