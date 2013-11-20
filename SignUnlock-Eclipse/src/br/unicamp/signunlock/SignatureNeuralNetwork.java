@@ -8,7 +8,9 @@ import org.neuroph.core.learning.SupervisedTrainingElement;
 import org.neuroph.core.learning.TrainingElement;
 import org.neuroph.core.learning.TrainingSet;
 import org.neuroph.nnet.MultiLayerPerceptron;
+import org.neuroph.nnet.Perceptron;
 import org.neuroph.nnet.learning.BackPropagation;
+import org.neuroph.nnet.learning.DynamicBackPropagation;
 
 import java.util.List;
 
@@ -19,12 +21,12 @@ public class SignatureNeuralNetwork {
     SignatureNeuralNetwork(List<double[]> features, List<double[]> classes) {
         int numInput = features.get(0).length;
         int numOutput = classes.get(0).length;
-        initialize(numInput, numOutput);
+        initialize(numInput, 10, numOutput);
         constructTraining(features, classes);
         //use:   tSet.save(FILE) then tSet.load(FILE)
     }
 
-    public void initialize(int... layersSize) {
+    public void initialize(int ...layersSize) {
         mNeuralNetwork = new MultiLayerPerceptron(layersSize);
     }
 
@@ -44,9 +46,11 @@ public class SignatureNeuralNetwork {
     }
 
     public void learn() {
-        mNeuralNetwork.learn(tSet, new BackPropagation());
+        mNeuralNetwork.randomizeWeights();
+        mNeuralNetwork.learn(tSet);
+        mNeuralNetwork.setLearningRule(new BackPropagation());
         String file = Environment.getExternalStorageDirectory().getAbsolutePath() + "/myNN.nnet";
-        mNeuralNetwork.save(file);
+        //mNeuralNetwork.save(file);
         Log.d("NNET", "saved model at " + file);
     }
 

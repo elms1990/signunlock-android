@@ -18,7 +18,7 @@ public class ValidateSignatureActivity extends Activity {
 
     private double mBestScore = Double.MAX_VALUE;
     private double mLastScore;
-    private double mThreshold = 0.5f;
+    private double mThreshold = 0.6f;
 
     private SignatureNeuralNetwork mNNetwork;
 
@@ -27,8 +27,8 @@ public class ValidateSignatureActivity extends Activity {
         setContentView(R.layout.activity_validate_signature);
 
         if (TrainingStack.getFeatures().size() == 0) {
-            //finish();
-            //return;
+            finish();
+            return;
         }
 
         drawView = (DrawView) findViewById(R.id.home_signature_view);
@@ -53,6 +53,7 @@ public class ValidateSignatureActivity extends Activity {
     public void restartButton(View v) {
         drawView.path.reset();
         drawView.invalidate();
+        drawView.points.clear();
     }
 
     public void okButton(View v) {
@@ -68,7 +69,7 @@ public class ValidateSignatureActivity extends Activity {
         for(int i=0; i<nnScore.length; i++)
             Log.e("SCORE:"+i, ""+nnScore[i]);
 
-        double edist = 1 - nnScore[0];
+        double edist = nnScore[0];
         /*
         double edist = mCluster.euclideanDistance(featureVector);
         edist *= 100;
@@ -81,15 +82,19 @@ public class ValidateSignatureActivity extends Activity {
 
 //        mThreshold = 100 * mCluster.estimateThreshold();
 */
-        if (mBestScore > edist) {
+        if (mBestScore < edist) {
             mBestScore = edist;
         }
         mLastScore = edist;
 
-        mBestScoreText.setText("Best: " + String.valueOf(mBestScore).substring(0,  5));
-        mLastScoreText.setText("Last: " + String.valueOf(mLastScore).substring(0, 5));
+       mBestScoreText.setText("Best: " +
+               String.valueOf(mBestScore).substring(0, Math.min(5,String.valueOf(mBestScore).length()))
+       );
+       mLastScoreText.setText("Last: " +
+               String.valueOf(mLastScore).substring(0, Math.min(5,String.valueOf(mLastScore).length()))
+       );
 
-        if (edist < mThreshold) {
+        if (edist > mThreshold) {
             Toast.makeText(this, mCluster.estimateThreshold() + " Unlocked Device. ", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, mCluster.estimateThreshold() + " YOU SHALL NOT PASS. ", Toast.LENGTH_SHORT).show();
