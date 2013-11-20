@@ -16,7 +16,7 @@ public class SignPreProcess {
 
     private static final String TAG = "PROCESS";
 
-    public static int AMSIZE = 20;
+    public static int AMSIZE = 10;
     public static int NUMGRID = 10;
 
     //determined experimentally

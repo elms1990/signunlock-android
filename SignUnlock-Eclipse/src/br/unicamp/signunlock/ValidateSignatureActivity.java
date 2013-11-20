@@ -9,48 +9,48 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ValidateSignatureActivity extends Activity {
-	private DrawView drawView;
-	private Cluster mCluster;
-	
-	private TextView mBestScoreText;
-	private TextView mLastScoreText;
-	private EditText mThresholdText;
-	
-	private double mBestScore = Double.MAX_VALUE;
-	private double mLastScore;
-	private double mThreshold = 50.f;
-	
-//	private SignatureNeuralNetwork mNNetwork;
-	
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_validate_signature);
-		
-		if (TrainingStack.getFeatures().size() == 0) {
-			finish();
-			return;
-		}
-		
-		drawView = (DrawView) findViewById(R.id.home_signature_view);
+    private DrawView drawView;
+    private Cluster mCluster;
+
+    private TextView mBestScoreText;
+    private TextView mLastScoreText;
+    private EditText mThresholdText;
+
+    private double mBestScore = Double.MAX_VALUE;
+    private double mLastScore;
+    private double mThreshold = 0.5f;
+
+    private SignatureNeuralNetwork mNNetwork;
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_validate_signature);
+
+        if (TrainingStack.getFeatures().size() == 0) {
+            //finish();
+            //return;
+        }
+
+        drawView = (DrawView) findViewById(R.id.home_signature_view);
         drawView.requestFocus();
-		mCluster = new Cluster();
-		mCluster.addFeature(TrainingStack.getFeatures());
-		mCluster.calculateCentroid();
-		
-		mBestScoreText = (TextView)findViewById(R.id.validate_best_score);
-		mLastScoreText = (TextView)findViewById(R.id.validate_last_score);
-		mThresholdText = (EditText)findViewById(R.id.validate_threshold);
-		
-//		mNNetwork = new SignatureNeuralNetwork();
-//		mNNetwork.initialize(FeatureStack.getFeatures().get(0).length, 1);
-//		mNNetwork.learn(FeatureStack.getFeatures());
-	}
-	
-	public void thresholdButton(View v) {
-		mThreshold = Double.parseDouble(mThresholdText.getText().toString());
-	}
-	
-	public void restartButton(View v) {
+        mCluster = new Cluster();
+        mCluster.addFeature(TrainingStack.getFeatures());
+        mCluster.calculateCentroid();
+
+        mBestScoreText = (TextView)findViewById(R.id.validate_best_score);
+        mLastScoreText = (TextView)findViewById(R.id.validate_last_score);
+        mThresholdText = (EditText)findViewById(R.id.validate_threshold);
+
+        mNNetwork = new SignatureNeuralNetwork(TrainingStack.getFeatures(), TrainingStack.getClasses());
+        mNNetwork.learn();
+
+    }
+
+    public void thresholdButton(View v) {
+        mThreshold = Double.parseDouble(mThresholdText.getText().toString());
+    }
+
+    public void restartButton(View v) {
         drawView.path.reset();
         drawView.invalidate();
     }
@@ -58,39 +58,43 @@ public class ValidateSignatureActivity extends Activity {
     public void okButton(View v) {
         drawView.path.reset();
         drawView.invalidate();
-        
+
         if (drawView.points.size() == 0) {
-        	return;
+            return;
         }
 
         double[] featureVector = (new SignPreProcess(drawView.points)).getFeatureVector();
-        
-//        double nnScore = mNNetwork.test(featureVector);  
-        
+        double[] nnScore = mNNetwork.test(featureVector);
+        for(int i=0; i<nnScore.length; i++)
+            Log.e("SCORE:"+i, ""+nnScore[i]);
+
+        double edist = 1 - nnScore[0];
+        /*
         double edist = mCluster.euclideanDistance(featureVector);
         edist *= 100;
         String ss = "";
         for (int i = 0; i < mCluster.getRenormalizedCentroid().length; i++) {
-        	 ss += mCluster.getRenormalizedCentroid()[i] + " ";
+            ss += mCluster.getRenormalizedCentroid()[i] + " ";
         }
-        Log.e("SS", ss);
+        Log.d("SS", ss);
 //        boolean ova = mCluster.oneVsAllEuclideanDistance(featureVector, mThreshold);
-        
+
 //        mThreshold = 100 * mCluster.estimateThreshold();
+*/
         if (mBestScore > edist) {
-        	mBestScore = edist;
+            mBestScore = edist;
         }
         mLastScore = edist;
-        
+
         mBestScoreText.setText("Best: " + String.valueOf(mBestScore).substring(0,  5));
         mLastScoreText.setText("Last: " + String.valueOf(mLastScore).substring(0, 5));
-        
+
         if (edist < mThreshold) {
-        	Toast.makeText(this, mCluster.estimateThreshold() + " Unlocked Device. ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, mCluster.estimateThreshold() + " Unlocked Device. ", Toast.LENGTH_SHORT).show();
         } else {
-        	Toast.makeText(this, mCluster.estimateThreshold() + " YOU SHALL NOT PASS. ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, mCluster.estimateThreshold() + " YOU SHALL NOT PASS. ", Toast.LENGTH_SHORT).show();
         }
-        
+
         drawView.points.clear();
     }
 }

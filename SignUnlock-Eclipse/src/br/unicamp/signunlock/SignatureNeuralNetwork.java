@@ -1,5 +1,8 @@
 package br.unicamp.signunlock;
 
+import android.os.Environment;
+import android.util.Log;
+
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.learning.SupervisedTrainingElement;
 import org.neuroph.core.learning.TrainingElement;
@@ -11,33 +14,46 @@ import java.util.List;
 
 public class SignatureNeuralNetwork {
     private NeuralNetwork mNeuralNetwork;
+    private TrainingSet<TrainingElement> tSet;
+
+    SignatureNeuralNetwork(List<double[]> features, List<double[]> classes) {
+        int numInput = features.get(0).length;
+        int numOutput = classes.get(0).length;
+        initialize(numInput, numOutput);
+        constructTraining(features, classes);
+        //use:   tSet.save(FILE) then tSet.load(FILE)
+    }
 
     public void initialize(int... layersSize) {
-    	mNeuralNetwork = new MultiLayerPerceptron(layersSize);
+        mNeuralNetwork = new MultiLayerPerceptron(layersSize);
     }
-    
+
     public void reset() {
-    	mNeuralNetwork.reset();
-    }
-    
-    private TrainingSet<TrainingElement> convert(List<double[]> featureVector) {
-    	TrainingSet<TrainingElement> set = new TrainingSet<TrainingElement>(featureVector.get(0).length);
-    	
-    	for (double[] vec : featureVector) {
-    		set.addElement(new SupervisedTrainingElement(vec, new double[] { 1 }));
-    	}
-    	
-    	return set;
+        mNeuralNetwork.reset();
     }
 
-    public void learn(List<double[]> fvs) {
-    	mNeuralNetwork.learn(convert(fvs), new BackPropagation());
+    private void constructTraining(List<double[]> featureVector, List<double[]> classes) {
+        if(tSet == null)
+            tSet = new TrainingSet<TrainingElement>();
+
+        for (int i=0; i<featureVector.size(); i++) {
+            tSet.addElement(new SupervisedTrainingElement(featureVector.get(i), classes.get(i)));
+        }
+
+        return;
     }
 
-    public double test(double[] testV) {
-    	mNeuralNetwork.setInput(testV);
-    	mNeuralNetwork.calculate();
-    	
-    	return mNeuralNetwork.getOutput()[0];
+    public void learn() {
+        mNeuralNetwork.learn(tSet, new BackPropagation());
+        String file = Environment.getExternalStorageDirectory().getAbsolutePath() + "/myNN.nnet";
+        mNeuralNetwork.save(file);
+        Log.d("NNET", "saved model at " + file);
+    }
+
+    public double[] test(double[] testV) {
+        mNeuralNetwork.setInput(testV);
+        mNeuralNetwork.calculate();
+
+        return mNeuralNetwork.getOutput();
     }
 }

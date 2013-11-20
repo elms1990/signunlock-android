@@ -44,11 +44,12 @@ public class TrainingActivity extends Activity {
         double[] featureVector = (new SignPreProcess(drawView.points)).getFeatureVector();
         TrainingStack.addFeature(featureVector);
         if(authentic)
-            TrainingStack.addClass(new double[]{1,0});
+            TrainingStack.addClass(new double[]{1,0}); //{1,0}
         else
-            TrainingStack.addClass(new double[]{0,1});
+            TrainingStack.addClass(new double[]{0,1}); //{0,1}
 
-        List<DrawPoint> myPoints = drawView.points;
+
+            List<DrawPoint> myPoints = drawView.points;
         Log.d("GOT", "" + myPoints.size());
         String fileName = ((EditText) findViewById(R.id.editText)).getText().toString();
 
