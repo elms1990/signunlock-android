@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends Activity {
+public class TrainingActivity extends Activity {
     private DrawView drawView;
     int numsigs = 0;
     List<double[]> FVs = new ArrayList<double[]>();
