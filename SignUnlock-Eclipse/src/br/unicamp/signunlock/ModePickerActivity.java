@@ -14,7 +14,7 @@ public class ModePickerActivity extends Activity {
 	}
 	
 	public void learnSignature(View v) {
-		Intent i = new Intent(this, MainActivity.class);
+		Intent i = new Intent(this, TrainingActivity.class);
 		startActivity(i);
 	}
 	
@@ -24,6 +24,6 @@ public class ModePickerActivity extends Activity {
 	}
 	
 	public void clearTraining(View v) {
-		FeatureStack.clearStack();
+		TrainingStack.clearStack();
 	}
 }

@@ -19,6 +19,9 @@ public class SignPreProcess {
     public static int AMSIZE = 10;
     public static int NUMGRID = 10;
 
+    //determined experimentally
+    final double MAXVELPOSSIBLE = 1000.0f;
+
     List<DrawPoint> drawPoints;
     List<Point> points;
     List<Double> velocity;
@@ -107,13 +110,14 @@ public class SignPreProcess {
         List<Double> vel = new ArrayList<Double>();
         for (int i = 0; i < drawPoints.size() - 1; i++) {
             v = drawPoints.get(i).distanceTo(drawPoints.get(i + 1));
+            v /= MAXVELPOSSIBLE;
             if (v > maxVel)
                 maxVel = v;
             sumV += v;
             vel.add(v);
         }
         avgVel = sumV / drawPoints.size();
-
+        Log.d("MAXVEL", ""+maxVel);
         velocity = vel;
     }
 

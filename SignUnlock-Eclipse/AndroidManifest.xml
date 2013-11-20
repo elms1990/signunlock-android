@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         <activity
-            android:name="br.unicamp.signunlock.MainActivity"
+            android:name="br.unicamp.signunlock.TrainingActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
