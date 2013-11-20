@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,6 +33,7 @@ public class TrainingActivity extends Activity {
 
     public void restartButton(View v) {
         drawView.path.reset();
+        drawView.points.clear();
         drawView.invalidate();
     }
 
@@ -39,21 +41,26 @@ public class TrainingActivity extends Activity {
         drawView.path.reset();
         drawView.invalidate();
 
+
+        List<DrawPoint> myPoints = drawView.points;
+        if(myPoints.size() < 2){
+            Toast.makeText(this, "please draw something", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Log.d("GOT", "" + myPoints.size());
+        String fileName = ((EditText) findViewById(R.id.editText)).getText().toString();
+        saveSignature(myPoints, "/sig_"+fileName+ TrainingStack.getStackSize()+".ser");
+
         Boolean authentic = ((CheckBox) findViewById(R.id.checkBox)).isChecked();
 
         double[] featureVector = (new SignPreProcess(drawView.points)).getFeatureVector();
         TrainingStack.addFeature(featureVector);
         if(authentic)
-            TrainingStack.addClass(new double[]{1,0}); //{1,0}
+            TrainingStack.addClass(new double[]{1,0});
         else
-            TrainingStack.addClass(new double[]{0,1}); //{0,1}
+            TrainingStack.addClass(new double[]{0,1});
 
 
-            List<DrawPoint> myPoints = drawView.points;
-        Log.d("GOT", "" + myPoints.size());
-        String fileName = ((EditText) findViewById(R.id.editText)).getText().toString();
-
-        saveSignature(myPoints, "/sig_"+fileName+ TrainingStack.getStackSize()+".ser");
 //        List<DrawPoint> myPoints2 = loadSignature("/sig_"+fileName+TrainingStack.getStackSize()+".ser");
 
 //        if(TrainingStack.getStackSize() == 3){
