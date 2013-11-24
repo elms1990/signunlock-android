@@ -17,7 +17,7 @@ public class SignPreProcess {
     private static final String TAG = "PROCESS";
 
     public static int AMSIZE = 10;
-    public static int NUMGRID = 10;
+    public static int NUMGRID = 5;
 
     //determined experimentally
     final double MAXVELPOSSIBLE = 1000.0f;
@@ -36,6 +36,9 @@ public class SignPreProcess {
 
     double[][] density;
     double maxX = 0, minX = 99999999, maxY = 0, minY = 99999999;
+
+    double[] numVectorsGeoCoords = new double[8];
+    double[] sizeVectorsGeoCoords = new double[8];
     
     private double[] mFeatureVector = null;
 
@@ -136,20 +139,49 @@ public class SignPreProcess {
     private void calcDirectionChanges() {
         int directionX = 0, directionY = 0; // UP=0, DOWN=1
         int dcX = 0, dcY = 0;
+        DrawPoint lastChangedPoint = drawPoints.get(0);
+        for(int i=0; i<numVectorsGeoCoords.length; i++){
+            numVectorsGeoCoords[i]=0;
+            sizeVectorsGeoCoords[i]=0;
+        }
 
-        for (int i = 0; i < drawPoints.size() - 1; i++) {
+
+        for (int i = 0; i < points.size() - 1; i++) {
             DrawPoint p1 = drawPoints.get(i);
             DrawPoint p2 = drawPoints.get(i + 1);
 
             double deltaX = p2.x - p1.x;
             double deltaY = p2.y - p1.y;
-            int thresh = 5;
+            int thresh = 10;
+            Boolean changed = false;
             if ((deltaX > thresh && directionX == 1) ||
-                    (deltaX < -thresh && directionX == 0))
+                    (deltaX < -thresh && directionX == 0)){
                 dcX++;
+                changed = true;
+            }
             if ((deltaY > thresh && directionY == 1) ||
-                    (deltaY < -thresh && directionY == 0))
+                    (deltaY < -thresh && directionY == 0)){
                 dcY++;
+                changed = true;
+            }
+
+            if(i==points.size()-2)
+                changed=true;
+
+            if(changed){
+                double angle = Math.atan2(lastChangedPoint.y - p1.y, lastChangedPoint.x - p1.x);
+                int gradeAngle = (int)(angle * 180/Math.PI);
+                long geoCoord = Math.round(gradeAngle/45.0) + 3;
+                if(geoCoord == -1)
+                    geoCoord = 7;
+
+                numVectorsGeoCoords[(int)geoCoord]++;
+                sizeVectorsGeoCoords[(int)geoCoord]+= lastChangedPoint.distanceTo(p1)/Math.max(maxX,maxY);
+
+                Log.d("ANGLES", gradeAngle +" "+geoCoord);
+
+
+            }
 
             if (deltaX > 0) directionX = 0;
             else directionX = 1;
@@ -163,12 +195,14 @@ public class SignPreProcess {
     }
 
     private void calcDensity() {
+        NUMGRID = 4;
         int[][] countdensity = new int[NUMGRID+1][NUMGRID+1];
         density = new double[NUMGRID+1][NUMGRID+1];
-        double xSize = 1.0 / NUMGRID;
-        double ySize = 1.0 / NUMGRID;
+        Log.d("SIZE", density.length+ " " + density[0].length);
+        double xSize = maxX / NUMGRID;
+        double ySize = maxY / NUMGRID;
 
-        for (Point p : points) {
+        for (DrawPoint p : drawPoints) {
             countdensity[(int) (p.x / xSize)][(int) (p.y / ySize)]++;
         }
 
@@ -235,12 +269,9 @@ public class SignPreProcess {
     
     private void addFeature(double[][] feat) {
     	int size = 0;
-    	for (int j = 0; j < feat.length; j++) {
-    		for (int i = 0; i < feat[j].length; i++) {
-    			size++;
-    		}
-    	}
-    	
+
+        size = feat.length * feat[0].length;
+
     	double[] linearized = new double[size];  	
     	for (int j = 0; j < feat.length; j++) {
     		for (int i = 0; i < feat[j].length; i++) {
@@ -255,17 +286,47 @@ public class SignPreProcess {
     	purgeVector();
     	
     	addFeature(numLifts);
-    	addFeature(widthHeightRatio);
-    	addFeature(maxVel);
-    	addFeature(avgVel);
-    	addFeature(maxPress);
-    	addFeature(avgPress);
-    	addFeature(numXchanges);
-    	addFeature(numYChanges);
-    	addFeature(amPoints);
-    	addFeature(amVelocity);
-    	addFeature(density);
-    	
+        Log.d("FEATURELENGHT","numLifts "+mFeatureVector.length);
+        addFeature(totalDuration);
+        Log.d("FEATURELENGHT","totalDuration "+mFeatureVector.length);
+
+        addFeature(widthHeightRatio);
+        Log.d("FEATURELENGHT","widthHeightRatio "+mFeatureVector.length);
+
+        addFeature(maxVel);
+        Log.d("FEATURELENGHT","maxVel "+mFeatureVector.length);
+
+        addFeature(avgVel);
+        Log.d("FEATURELENGHT","avgVel "+mFeatureVector.length);
+
+        addFeature(maxPress);
+        Log.d("FEATURELENGHT","maxPress "+mFeatureVector.length);
+
+        addFeature(avgPress);
+        Log.d("FEATURELENGHT","avgPress "+mFeatureVector.length);
+
+        addFeature(numXchanges);
+        Log.d("FEATURELENGHT","numXchanges "+mFeatureVector.length);
+
+        addFeature(numYChanges);
+        Log.d("FEATURELENGHT","numYchanges"+mFeatureVector.length);
+
+        addFeature(amPoints);
+        Log.d("FEATURELENGHT","amPoints "+mFeatureVector.length);
+
+        addFeature(amVelocity);
+        Log.d("FEATURELENGHT","amVelocity"+mFeatureVector.length);
+
+        addFeature(density);
+        Log.d("FEATURELENGHT","density "+mFeatureVector.length);
+
+        addFeature(numVectorsGeoCoords);
+        Log.d("FEATURELENGHT","numvectorgeoocords "+mFeatureVector.length);
+
+        addFeature(sizeVectorsGeoCoords);
+        Log.d("FEATURELENGHT","sizevectorgeoocords "+mFeatureVector.length);
+
+
         return mFeatureVector;
     }
 
