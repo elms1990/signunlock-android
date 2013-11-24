@@ -34,6 +34,8 @@ public class ValidateSignatureActivity extends Activity {
 
 		if (TrainingStack.getFeatures().size() == 0) {
 			finish();
+			Toast.makeText(getApplicationContext(),
+					"Please add some signatures", Toast.LENGTH_SHORT).show();
 			return;
 		}
 
