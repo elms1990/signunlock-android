@@ -47,7 +47,7 @@ public class SignPreProcess {
         getNumLifts();
         calcMinMaxvals();
         normalizePoints();
-        totalDuration = drawPoints.get(drawPoints.size() - 1).time - drawPoints.get(0).time;
+        //totalDuration = drawPoints.get(drawPoints.size() - 1).time - drawPoints.get(0).time;
         calcVelocity();
         normalizeVelocity();
         calcPress();
@@ -146,7 +146,7 @@ public class SignPreProcess {
         }
 
 
-        for (int i = 0; i < points.size() - 1; i++) {
+        for (int i = 0; i < drawPoints.size() - 1; i++) {
             DrawPoint p1 = drawPoints.get(i);
             DrawPoint p2 = drawPoints.get(i + 1);
 
@@ -165,8 +165,10 @@ public class SignPreProcess {
                 changed = true;
             }
 
-            if(i==points.size()-2)
+            if(i==drawPoints.size()-2 || p1.action==MotionEvent.ACTION_UP)
                 changed=true;
+            if(p1.action==MotionEvent.ACTION_DOWN)
+            	lastChangedPoint = p1;
 
             if(changed){
                 double angle = Math.atan2(lastChangedPoint.y - p1.y, lastChangedPoint.x - p1.x);
@@ -178,7 +180,9 @@ public class SignPreProcess {
                 numVectorsGeoCoords[(int)geoCoord]++;
                 sizeVectorsGeoCoords[(int)geoCoord]+= lastChangedPoint.distanceTo(p1)/Math.max(maxX,maxY);
 
-                Log.d("ANGLES", gradeAngle +" "+geoCoord);
+                Log.e("ANGLES", gradeAngle +" "+geoCoord);
+                
+                lastChangedPoint = p1;
 
 
             }
@@ -234,7 +238,10 @@ public class SignPreProcess {
         int deltaAm = points.size()/AMSIZE;
         amPoints = new double[2*AMSIZE];
         amVelocity = new double[AMSIZE];
-
+        
+        if(AMSIZE < points.size()-1)
+        	return;
+        
         for(int i=0; i<AMSIZE; i++){
             amPoints[2*i] = points.get(i*deltaAm).x;
             amPoints[2*i+1] = points.get(i*deltaAm).x;
@@ -285,46 +292,19 @@ public class SignPreProcess {
     	purgeVector();
     	
     	addFeature(numLifts);
-        Log.d("FEATURELENGHT","numLifts "+mFeatureVector.length);
         //addFeature(totalDuration);
-        //Log.d("FEATURELENGHT","totalDuration "+mFeatureVector.length);
-
         addFeature(widthHeightRatio);
-        Log.d("FEATURELENGHT","widthHeightRatio "+mFeatureVector.length);
-
         addFeature(maxVel);
-        Log.d("FEATURELENGHT","maxVel "+mFeatureVector.length);
-
         addFeature(avgVel);
-        Log.d("FEATURELENGHT","avgVel "+mFeatureVector.length);
-
         addFeature(maxPress);
-        Log.d("FEATURELENGHT","maxPress "+mFeatureVector.length);
-
         addFeature(avgPress);
-        Log.d("FEATURELENGHT","avgPress "+mFeatureVector.length);
-
         addFeature(numXchanges);
-        Log.d("FEATURELENGHT","numXchanges "+mFeatureVector.length);
-
         addFeature(numYChanges);
-        Log.d("FEATURELENGHT","numYchanges"+mFeatureVector.length);
-
         addFeature(amPoints);
-        Log.d("FEATURELENGHT","amPoints "+mFeatureVector.length);
-
         addFeature(amVelocity);
-        Log.d("FEATURELENGHT","amVelocity"+mFeatureVector.length);
-
         addFeature(density);
-        Log.d("FEATURELENGHT","density "+mFeatureVector.length);
-
         addFeature(numVectorsGeoCoords);
-        Log.d("FEATURELENGHT","numvectorgeoocords "+mFeatureVector.length);
-
         addFeature(sizeVectorsGeoCoords);
-        Log.d("FEATURELENGHT","sizevectorgeoocords "+mFeatureVector.length);
-
 
         return mFeatureVector;
     }

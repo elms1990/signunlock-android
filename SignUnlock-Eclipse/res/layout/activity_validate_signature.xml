@@ -41,14 +41,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
-            android:text="Best: " />
+            android:text="Positive: " />
 
         <TextView
             android:id="@+id/validate_last_score"
             android:layout_width="0dp"
             android:layout_weight="0.25"
             android:layout_height="wrap_content"
-            android:text="Last: "
+            android:text="Negative: "
 		/>
 
         <EditText
