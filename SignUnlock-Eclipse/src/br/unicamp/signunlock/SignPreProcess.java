@@ -47,8 +47,8 @@ public class SignPreProcess {
 		getNumLifts();
 		calcMinMaxvals();
 		normalizePoints();
-		// totalDuration = drawPoints.get(drawPoints.size() - 1).time -
-		// drawPoints.get(0).time;
+		//totalDuration = (drawPoints.get(drawPoints.size() - 1).time - drawPoints
+		//		.get(0).time) / 60;
 		calcVelocity();
 		normalizeVelocity();
 		calcPress();
@@ -189,8 +189,6 @@ public class SignPreProcess {
 				sizeVectorsGeoCoords[(int) geoCoord] += lastChangedPoint
 						.distanceTo(p1) / Math.max(maxX, maxY);
 
-				Log.e("ANGLES", gradeAngle + " " + geoCoord);
-
 				lastChangedPoint = p1;
 
 			}
@@ -213,7 +211,6 @@ public class SignPreProcess {
 	private void calcDensity() {
 		int[][] countdensity = new int[NUMGRID + 1][NUMGRID + 1];
 		density = new double[NUMGRID + 1][NUMGRID + 1];
-		Log.d("SIZE", density.length + " " + density[0].length);
 		double xSize = maxX / NUMGRID;
 		double ySize = maxY / NUMGRID;
 
@@ -308,7 +305,7 @@ public class SignPreProcess {
 		purgeVector();
 
 		addFeature(numLifts);
-		// addFeature(totalDuration);
+		//addFeature(totalDuration);
 		addFeature(widthHeightRatio);
 		addFeature(maxVel);
 		addFeature(avgVel);
