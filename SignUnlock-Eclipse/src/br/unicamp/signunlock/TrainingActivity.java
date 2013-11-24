@@ -43,8 +43,8 @@ public class TrainingActivity extends Activity {
 
 
         List<DrawPoint> myPoints = drawView.points;
-        if(myPoints.size() < 2){
-            Toast.makeText(this, "please draw something", Toast.LENGTH_SHORT).show();
+        if(myPoints.size() < 5){
+            Toast.makeText(this, "please draw more", Toast.LENGTH_SHORT).show();
             return;
         }
         Log.d("GOT", "" + myPoints.size());

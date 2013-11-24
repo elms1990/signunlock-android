@@ -20,11 +20,11 @@ public class ValidateSignatureActivity extends Activity {
 
     private TextView mBestScoreText;
     private TextView mLastScoreText;
-    private EditText mThresholdText;
+    private EditText mThresholdText;    
 
     private double mBestScore = Double.MAX_VALUE;
     private double mLastScore;
-    private double mThreshold = 0.6f;
+    private double mThreshold = 0.6f;    
 
     private SignatureNeuralNetwork mNNetwork;
 
@@ -47,7 +47,8 @@ public class ValidateSignatureActivity extends Activity {
         mLastScoreText = (TextView)findViewById(R.id.validate_last_score);
         mThresholdText = (EditText)findViewById(R.id.validate_threshold);
 
-        mNNetwork = new SignatureNeuralNetwork(TrainingStack.getFeatures(), TrainingStack.getClasses());
+        mNNetwork = new SignatureNeuralNetwork(TrainingStack.getFeatures(), 
+        		TrainingStack.getClasses(), this);
 
         final Context context = ValidateSignatureActivity.this;
         final ProgressDialog progress = new ProgressDialog(this);
@@ -85,9 +86,12 @@ public class ValidateSignatureActivity extends Activity {
         drawView.path.reset();
         drawView.invalidate();
 
-        if (drawView.points.size() == 0) {
+
+        if (drawView.points.size() < 5) {
+        	Toast.makeText(getApplicationContext(), 
+        			"Please draw more",	Toast.LENGTH_SHORT).show();
             return;
-        }
+        }        
 
         double[] featureVector = (new SignPreProcess(drawView.points)).getFeatureVector();
         double[] nnScore = mNNetwork.test(featureVector);
@@ -107,22 +111,14 @@ public class ValidateSignatureActivity extends Activity {
 
 //        mThreshold = 100 * mCluster.estimateThreshold();
 */
-        if (mBestScore < edist) {
-            mBestScore = edist;
-        }
-        mLastScore = edist;
 
-       mBestScoreText.setText("Best: " +
-               String.valueOf(mBestScore).substring(0, Math.min(5,String.valueOf(mBestScore).length()))
-       );
-       mLastScoreText.setText("Last: " +
-               String.valueOf(mLastScore).substring(0, Math.min(5,String.valueOf(mLastScore).length()))
-       );
+       mBestScoreText.setText("Positive: " +  nnScore[0]);
+       mLastScoreText.setText("Negative: " + nnScore[1]);
 
         if (edist > mThreshold) {
-            Toast.makeText(this, mCluster.estimateThreshold() + " Unlocked Device. ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, " Unlocked Device. ", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, mCluster.estimateThreshold() + " YOU SHALL NOT PASS. ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, " YOU SHALL NOT PASS. ", Toast.LENGTH_SHORT).show();
         }
 
         drawView.points.clear();
