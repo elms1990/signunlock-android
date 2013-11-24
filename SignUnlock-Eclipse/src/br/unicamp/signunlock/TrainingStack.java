@@ -6,9 +6,11 @@ import java.util.ArrayList;
 public class TrainingStack {
 	private static ArrayList<double[]> sFeatures = new ArrayList<double[]>();
 	private static ArrayList<double[]> sClasses = new ArrayList<double[]>();
+	public static Boolean updated = false;
 
 	public static void addFeature(double[] vector) {
 		sFeatures.add(vector);
+		updated = true;
 	}
 
 	public static ArrayList<double[]> getFeatures() {

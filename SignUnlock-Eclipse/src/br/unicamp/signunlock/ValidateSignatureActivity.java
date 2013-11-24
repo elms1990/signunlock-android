@@ -47,26 +47,30 @@ public class ValidateSignatureActivity extends Activity {
 		mLastScoreText = (TextView) findViewById(R.id.validate_last_score);
 		mThresholdText = (EditText) findViewById(R.id.validate_threshold);
 
-		mNNetwork = new SignatureNeuralNetwork(TrainingStack.getFeatures(),
-				TrainingStack.getClasses(), this);
+		if (TrainingStack.updated) {
+			mNNetwork = new SignatureNeuralNetwork(TrainingStack.getFeatures(),
+					TrainingStack.getClasses(), this);
 
-		final Context context = ValidateSignatureActivity.this;
-		final ProgressDialog progress = new ProgressDialog(this);
-		progress.setTitle("Please Wait!!");
-		progress.setMessage("Training Signature Model!");
-		progress.setCancelable(false);
-		progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			final Context context = ValidateSignatureActivity.this;
+			final ProgressDialog progress = new ProgressDialog(this);
+			progress.setTitle("Please Wait!!");
+			progress.setMessage("Training Signature Model!");
+			progress.setCancelable(false);
+			progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
-		progress.show();
-		new Thread() {
-			public void run() {
-				mNNetwork.learn();
-				Log.d("TRAINED", "DONE");
-				progress.dismiss();
+			progress.show();
+			new Thread() {
+				public void run() {
+					mNNetwork.learn();
+					Log.d("TRAINED", "DONE");
+					progress.dismiss();
 
-			}
+				}
 
-		}.start();
+			}.start();
+
+			TrainingStack.updated = false;
+		}
 
 	}
 
