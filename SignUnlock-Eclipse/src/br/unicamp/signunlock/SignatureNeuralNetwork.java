@@ -29,7 +29,7 @@ public class SignatureNeuralNetwork {
 		int numInput = features.get(0).length;
 		int numOutput = classes.get(0).length;
 
-		initialize(numInput, numInput/4, numOutput);
+		initialize(numInput, 10, numOutput);
 
 		Log.d("NEURAL NETWORK", "Input:" + numInput + " Output:" + numOutput);
 
@@ -40,7 +40,7 @@ public class SignatureNeuralNetwork {
 
 		String file = Environment.getExternalStorageDirectory()
 				.getAbsolutePath() + "/myFakeTrain.csv";
-		//tSet.saveAsTxt(file, ",");
+		tSet.saveAsTxt(file, ",");
 
 		Log.d("SAVEDSIGS", file + " NumTrain:" + tSet.size());
 

@@ -3,6 +3,7 @@ package br.unicamp.signunlock;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -37,19 +38,16 @@ public class TrainingActivity extends Activity {
 	}
 
 	public void okButton(View v) {
-		drawView.path.reset();
-		drawView.invalidate();
 
 		List<DrawPoint> myPoints = drawView.points;
 		if (myPoints.size() < 5) {
 			Toast.makeText(this, "please draw more", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		Log.d("GOT", "" + myPoints.size());
-		String fileName = ((EditText) findViewById(R.id.editText)).getText()
-				.toString();
-		saveSignature(myPoints,
-				"/sig_" + fileName + TrainingStack.getStackSize() + ".ser");
+		//String fileName = ((EditText) findViewById(R.id.editText)).getText()
+			//	.toString();
+		//saveSignature(myPoints,
+			//	"/sig_" + fileName + TrainingStack.getStackSize() + ".ser");
 
 		Boolean authentic = ((CheckBox) findViewById(R.id.checkBox))
 				.isChecked();
@@ -62,16 +60,16 @@ public class TrainingActivity extends Activity {
 		else
 			TrainingStack.addClass(new double[] { 0, 1 });
 
-		// List<DrawPoint> myPoints2 =
-		// loadSignature("/sig_"+fileName+TrainingStack.getStackSize()+".ser");
+		final Handler handler = new Handler();
+		handler.postDelayed(new Runnable() {
+		  @Override
+		  public void run() {
+				drawView.points.clear();
+				drawView.path.reset();
+				drawView.invalidate();
+		}
+		}, 100);
 
-		// if(TrainingStack.getStackSize() == 3){
-		// Log.d("STACK5", "OI OI OI");
-		// SignatureNeuralNetwork snn = new
-		// SignatureNeuralNetwork(TrainingStack.getFeatures(),
-		// TrainingStack.getClasses());
-		// }
-		drawView.points.clear();
 	}
 
 	public void saveSignature(List<DrawPoint> obj, String fileName) {

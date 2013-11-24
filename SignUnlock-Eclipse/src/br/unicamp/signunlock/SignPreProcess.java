@@ -47,8 +47,9 @@ public class SignPreProcess {
 		getNumLifts();
 		calcMinMaxvals();
 		normalizePoints();
-		//totalDuration = (drawPoints.get(drawPoints.size() - 1).time - drawPoints
-		//		.get(0).time) / 60;
+		// totalDuration = (drawPoints.get(drawPoints.size() - 1).time -
+		// drawPoints
+		// .get(0).time) / 60;
 		calcVelocity();
 		normalizeVelocity();
 		calcPress();
@@ -129,7 +130,6 @@ public class SignPreProcess {
 			}
 		}
 		avgVel = sumV / drawPoints.size();
-		Log.d("MAXVEL", "" + maxVel);
 		velocity = vel;
 	}
 
@@ -261,12 +261,6 @@ public class SignPreProcess {
 
 	}
 
-	private void process() {
-		for (Point p : points) {
-			Log.d("POINT", "" + p.x + ", " + p.y);
-		}
-	}
-
 	private void purgeVector() {
 		mFeatureVector = new double[0];
 	}
@@ -305,7 +299,7 @@ public class SignPreProcess {
 		purgeVector();
 
 		addFeature(numLifts);
-		//addFeature(totalDuration);
+		// addFeature(totalDuration);
 		addFeature(widthHeightRatio);
 		addFeature(maxVel);
 		addFeature(avgVel);

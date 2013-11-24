@@ -87,8 +87,6 @@ public class ValidateSignatureActivity extends Activity {
 	}
 
 	public void okButton(View v) {
-		drawView.path.reset();
-		drawView.invalidate();
 
 		if (drawView.points.size() < 5) {
 			Toast.makeText(getApplicationContext(), "Please draw more",
@@ -125,6 +123,14 @@ public class ValidateSignatureActivity extends Activity {
 					.show();
 		}
 
-		drawView.points.clear();
+		final Handler handler = new Handler();
+		handler.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				drawView.points.clear();
+				drawView.path.reset();
+				drawView.invalidate();
+			}
+		}, 1000);
 	}
 }
