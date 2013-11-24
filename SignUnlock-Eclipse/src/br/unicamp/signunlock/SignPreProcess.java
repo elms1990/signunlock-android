@@ -17,7 +17,7 @@ public class SignPreProcess {
     private static final String TAG = "PROCESS";
 
     public static int AMSIZE = 10;
-    public static int NUMGRID = 5;
+    public static int NUMGRID = 10;
 
     //determined experimentally
     final double MAXVELPOSSIBLE = 1000.0f;
@@ -195,7 +195,6 @@ public class SignPreProcess {
     }
 
     private void calcDensity() {
-        NUMGRID = 4;
         int[][] countdensity = new int[NUMGRID+1][NUMGRID+1];
         density = new double[NUMGRID+1][NUMGRID+1];
         Log.d("SIZE", density.length+ " " + density[0].length);
@@ -287,8 +286,8 @@ public class SignPreProcess {
     	
     	addFeature(numLifts);
         Log.d("FEATURELENGHT","numLifts "+mFeatureVector.length);
-        addFeature(totalDuration);
-        Log.d("FEATURELENGHT","totalDuration "+mFeatureVector.length);
+        //addFeature(totalDuration);
+        //Log.d("FEATURELENGHT","totalDuration "+mFeatureVector.length);
 
         addFeature(widthHeightRatio);
         Log.d("FEATURELENGHT","widthHeightRatio "+mFeatureVector.length);
