@@ -1,7 +1,13 @@
 package br.unicamp.signunlock;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -42,7 +48,26 @@ public class ValidateSignatureActivity extends Activity {
         mThresholdText = (EditText)findViewById(R.id.validate_threshold);
 
         mNNetwork = new SignatureNeuralNetwork(TrainingStack.getFeatures(), TrainingStack.getClasses());
-        mNNetwork.learn();
+
+        final Context context = ValidateSignatureActivity.this;
+        final ProgressDialog progress = new ProgressDialog(this);
+        progress.setTitle("Please Wait!!");
+        progress.setMessage("Training Signature Model!");
+        progress.setCancelable(false);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        
+        progress.show();
+        new Thread()
+        {
+            public void run()
+            {
+                mNNetwork.learn();
+                Log.d("TRAINED","DONE");
+                progress.dismiss();
+
+            }
+
+        }.start();
 
     }
 
