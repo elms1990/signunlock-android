@@ -16,11 +16,11 @@ public class Cluster {
 	public void addFeature(List<double[]> features) {
 		mFeatureVectors.addAll(features);
 	}
-	
+
 	public void renormalize(boolean b) {
 		mRenormalize = b;
 	}
-	
+
 	private void relativeNormalization(double[] base, double[] target) {
 		for (int i = 0; i < base.length; i++) {
 			if (base[i] > 1) {
@@ -53,7 +53,7 @@ public class Cluster {
 	public double[] getCentroid() {
 		return mCentroid;
 	}
-	
+
 	public double[] getRenormalizedCentroid() {
 		return mRenormalizedCentroid;
 	}
@@ -61,14 +61,14 @@ public class Cluster {
 	public double euclideanDistance(double[] vec) {
 		return euclideanDistance(vec, mCentroid);
 	}
-	
+
 	public double estimateThreshold() {
 		double threshold = 0;
-		
+
 		if (mFeatureVectors.size() <= 1) {
 			return -1;
 		}
-		
+
 		boolean old = mRenormalize;
 		mRenormalize = false;
 		for (int j = 0; j < mFeatureVectors.size(); j++) {
@@ -76,18 +76,20 @@ public class Cluster {
 				if (i == j) {
 					continue;
 				}
-				
-				threshold += euclideanDistance(mFeatureVectors.get(i), mFeatureVectors.get(j));
+
+				threshold += euclideanDistance(mFeatureVectors.get(i),
+						mFeatureVectors.get(j));
 			}
 		}
 		mRenormalize = old;
-		
-		return threshold / ((mFeatureVectors.size() - 1) * mFeatureVectors.size());
+
+		return threshold
+				/ ((mFeatureVectors.size() - 1) * mFeatureVectors.size());
 	}
 
 	private double euclideanDistance(double[] vec, double[] vec2) {
 		double distance = 0;
-		
+
 		if (mRenormalize) {
 			relativeNormalization(vec, vec2);
 			vec = mRenormalizedCentroid;
@@ -103,8 +105,11 @@ public class Cluster {
 	/**
 	 * Calculates the euclidean distance between the test vector and all
 	 * training vectors.
-	 * @param vec Test example
-	 * @param threshold Threshold
+	 * 
+	 * @param vec
+	 *            Test example
+	 * @param threshold
+	 *            Threshold
 	 * @return False, if the vec could not be validated. True, otherwise.
 	 */
 	public boolean oneVsAllEuclideanDistance(double[] vec, double threshold) {
@@ -113,7 +118,7 @@ public class Cluster {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 }

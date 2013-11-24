@@ -15,112 +15,110 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ValidateSignatureActivity extends Activity {
-    private DrawView drawView;
-    private Cluster mCluster;
+	private DrawView drawView;
+	private Cluster mCluster;
 
-    private TextView mBestScoreText;
-    private TextView mLastScoreText;
-    private EditText mThresholdText;    
+	private TextView mBestScoreText;
+	private TextView mLastScoreText;
+	private EditText mThresholdText;
 
-    private double mBestScore = Double.MAX_VALUE;
-    private double mLastScore;
-    private double mThreshold = 0.6f;    
+	private double mBestScore = Double.MAX_VALUE;
+	private double mLastScore;
+	private double mThreshold = 0.6f;
 
-    private SignatureNeuralNetwork mNNetwork;
+	private SignatureNeuralNetwork mNNetwork;
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_validate_signature);
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_validate_signature);
 
-        if (TrainingStack.getFeatures().size() == 0) {
-            finish();
-            return;
-        }
+		if (TrainingStack.getFeatures().size() == 0) {
+			finish();
+			return;
+		}
 
-        drawView = (DrawView) findViewById(R.id.home_signature_view);
-        drawView.requestFocus();
-        mCluster = new Cluster();
-        mCluster.addFeature(TrainingStack.getFeatures());
-        mCluster.calculateCentroid();
+		drawView = (DrawView) findViewById(R.id.home_signature_view);
+		drawView.requestFocus();
+		mCluster = new Cluster();
+		mCluster.addFeature(TrainingStack.getFeatures());
+		mCluster.calculateCentroid();
 
-        mBestScoreText = (TextView)findViewById(R.id.validate_best_score);
-        mLastScoreText = (TextView)findViewById(R.id.validate_last_score);
-        mThresholdText = (EditText)findViewById(R.id.validate_threshold);
+		mBestScoreText = (TextView) findViewById(R.id.validate_best_score);
+		mLastScoreText = (TextView) findViewById(R.id.validate_last_score);
+		mThresholdText = (EditText) findViewById(R.id.validate_threshold);
 
-        mNNetwork = new SignatureNeuralNetwork(TrainingStack.getFeatures(), 
-        		TrainingStack.getClasses(), this);
+		mNNetwork = new SignatureNeuralNetwork(TrainingStack.getFeatures(),
+				TrainingStack.getClasses(), this);
 
-        final Context context = ValidateSignatureActivity.this;
-        final ProgressDialog progress = new ProgressDialog(this);
-        progress.setTitle("Please Wait!!");
-        progress.setMessage("Training Signature Model!");
-        progress.setCancelable(false);
-        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        
-        progress.show();
-        new Thread()
-        {
-            public void run()
-            {
-                mNNetwork.learn();
-                Log.d("TRAINED","DONE");
-                progress.dismiss();
+		final Context context = ValidateSignatureActivity.this;
+		final ProgressDialog progress = new ProgressDialog(this);
+		progress.setTitle("Please Wait!!");
+		progress.setMessage("Training Signature Model!");
+		progress.setCancelable(false);
+		progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
-            }
+		progress.show();
+		new Thread() {
+			public void run() {
+				mNNetwork.learn();
+				Log.d("TRAINED", "DONE");
+				progress.dismiss();
 
-        }.start();
+			}
 
-    }
+		}.start();
 
-    public void thresholdButton(View v) {
-        mThreshold = Double.parseDouble(mThresholdText.getText().toString());
-    }
+	}
 
-    public void restartButton(View v) {
-        drawView.path.reset();
-        drawView.invalidate();
-        drawView.points.clear();
-    }
+	public void thresholdButton(View v) {
+		mThreshold = Double.parseDouble(mThresholdText.getText().toString());
+	}
 
-    public void okButton(View v) {
-        drawView.path.reset();
-        drawView.invalidate();
+	public void restartButton(View v) {
+		drawView.path.reset();
+		drawView.invalidate();
+		drawView.points.clear();
+	}
 
+	public void okButton(View v) {
+		drawView.path.reset();
+		drawView.invalidate();
 
-        if (drawView.points.size() < 5) {
-        	Toast.makeText(getApplicationContext(), 
-        			"Please draw more",	Toast.LENGTH_SHORT).show();
-            return;
-        }        
+		if (drawView.points.size() < 5) {
+			Toast.makeText(getApplicationContext(), "Please draw more",
+					Toast.LENGTH_SHORT).show();
+			return;
+		}
 
-        double[] featureVector = (new SignPreProcess(drawView.points)).getFeatureVector();
-        double[] nnScore = mNNetwork.test(featureVector);
-        for(int i=0; i<nnScore.length; i++)
-            Log.e("SCORE:"+i, ""+nnScore[i]);
+		double[] featureVector = (new SignPreProcess(drawView.points))
+				.getFeatureVector();
+		double[] nnScore = mNNetwork.test(featureVector);
+		for (int i = 0; i < nnScore.length; i++)
+			Log.e("SCORE:" + i, "" + nnScore[i]);
 
-        double edist = nnScore[0];
-        /*
-        double edist = mCluster.euclideanDistance(featureVector);
-        edist *= 100;
-        String ss = "";
-        for (int i = 0; i < mCluster.getRenormalizedCentroid().length; i++) {
-            ss += mCluster.getRenormalizedCentroid()[i] + " ";
-        }
-        Log.d("SS", ss);
-//        boolean ova = mCluster.oneVsAllEuclideanDistance(featureVector, mThreshold);
+		double edist = nnScore[0];
+		/*
+		 * double edist = mCluster.euclideanDistance(featureVector); edist *=
+		 * 100; String ss = ""; for (int i = 0; i <
+		 * mCluster.getRenormalizedCentroid().length; i++) { ss +=
+		 * mCluster.getRenormalizedCentroid()[i] + " "; } Log.d("SS", ss); //
+		 * boolean ova = mCluster.oneVsAllEuclideanDistance(featureVector,
+		 * mThreshold);
+		 * 
+		 * // mThreshold = 100 * mCluster.estimateThreshold();
+		 */
 
-//        mThreshold = 100 * mCluster.estimateThreshold();
-*/
+		mBestScoreText.setText("Positive: " + nnScore[0]);
+		mLastScoreText.setText("Negative: " + nnScore[1]);
 
-       mBestScoreText.setText("Positive: " +  nnScore[0]);
-       mLastScoreText.setText("Negative: " + nnScore[1]);
+		if (edist > mThreshold) {
+			Toast.makeText(this, " Unlocked Device. ", Toast.LENGTH_SHORT)
+					.show();
+		} else {
+			Toast.makeText(this, " YOU SHALL NOT PASS. ", Toast.LENGTH_SHORT)
+					.show();
+		}
 
-        if (edist > mThreshold) {
-            Toast.makeText(this, " Unlocked Device. ", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, " YOU SHALL NOT PASS. ", Toast.LENGTH_SHORT).show();
-        }
-
-        drawView.points.clear();
-    }
+		drawView.points.clear();
+	}
 }
