@@ -258,7 +258,7 @@ public class SignPreProcess {
 
 		for (int i = 0; i < AMSIZE; i++) {
 			amPoints[2 * i] = points.get(i * deltaAm).x;
-			amPoints[2 * i + 1] = points.get(i * deltaAm).x;
+			amPoints[2 * i + 1] = points.get(i * deltaAm).y;
 			amVelocity[i] = velocity.get(i * deltaAm).doubleValue();
 		}
 
