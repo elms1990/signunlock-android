@@ -22,6 +22,9 @@ public class SignatureNeuralNetwork {
         int numInput = features.get(0).length;
         int numOutput = classes.get(0).length;
         initialize(numInput, 10, numOutput);
+
+        Log.d("NEURAL NETWORK", "Input:"+numInput + " Output:"+numOutput);
+
         constructTraining(features, classes);
         //use:   tSet.save(FILE) then tSet.load(FILE)
     }
@@ -46,9 +49,9 @@ public class SignatureNeuralNetwork {
     }
 
     public void learn() {
-        mNeuralNetwork.randomizeWeights();
-        mNeuralNetwork.learn(tSet);
-        mNeuralNetwork.setLearningRule(new BackPropagation());
+        //tSet.normalize();
+        //mNeuralNetwork.randomizeWeights();
+        mNeuralNetwork.learn(tSet, new BackPropagation());
         String file = Environment.getExternalStorageDirectory().getAbsolutePath() + "/myNN.nnet";
         //mNeuralNetwork.save(file);
         Log.d("NNET", "saved model at " + file);
