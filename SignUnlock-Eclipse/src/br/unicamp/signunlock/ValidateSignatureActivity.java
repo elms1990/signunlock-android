@@ -22,11 +22,9 @@ public class ValidateSignatureActivity extends Activity {
 	private TextView mLastScoreText;
 	private EditText mThresholdText;
 
-	private double mBestScore = Double.MAX_VALUE;
-	private double mLastScore;
 	private double mThreshold = 0.6f;
 
-	private SignatureNeuralNetwork mNNetwork;
+	private static SignatureNeuralNetwork mNNetwork;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
