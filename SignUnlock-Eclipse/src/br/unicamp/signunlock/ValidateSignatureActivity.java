@@ -97,25 +97,11 @@ public class ValidateSignatureActivity extends Activity {
 		double[] featureVector = (new SignPreProcess(drawView.points))
 				.getFeatureVector();
 		double[] nnScore = mNNetwork.test(featureVector);
-		for (int i = 0; i < nnScore.length; i++)
-			Log.e("SCORE:" + i, "" + nnScore[i]);
-
-		double edist = nnScore[0];
-		/*
-		 * double edist = mCluster.euclideanDistance(featureVector); edist *=
-		 * 100; String ss = ""; for (int i = 0; i <
-		 * mCluster.getRenormalizedCentroid().length; i++) { ss +=
-		 * mCluster.getRenormalizedCentroid()[i] + " "; } Log.d("SS", ss); //
-		 * boolean ova = mCluster.oneVsAllEuclideanDistance(featureVector,
-		 * mThreshold);
-		 * 
-		 * // mThreshold = 100 * mCluster.estimateThreshold();
-		 */
 
 		mBestScoreText.setText("Positive: " + nnScore[0]);
 		mLastScoreText.setText("Negative: " + nnScore[1]);
 
-		if (edist > mThreshold) {
+		if (nnScore[0] > mThreshold && nnScore[0] > nnScore[1]) {
 			Toast.makeText(this, " Unlocked Device. ", Toast.LENGTH_SHORT)
 					.show();
 		} else {

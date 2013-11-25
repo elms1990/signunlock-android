@@ -12,6 +12,7 @@ import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.nnet.Perceptron;
 import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.nnet.learning.DynamicBackPropagation;
+import org.neuroph.nnet.learning.ResilientPropagation;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class SignatureNeuralNetwork {
 		int numInput = features.get(0).length;
 		int numOutput = classes.get(0).length;
 
-		initialize(numInput, 10, numOutput);
+		initialize(numInput, numInput/4, numOutput);
 
 		Log.d("NEURAL NETWORK", "Input:" + numInput + " Output:" + numOutput);
 
@@ -102,8 +103,10 @@ public class SignatureNeuralNetwork {
 
 	public void learn() {
 		// tSet.normalize();
-		// mNeuralNetwork.randomizeWeights();
-		mNeuralNetwork.learn(tSet, new BackPropagation());
+		mNeuralNetwork.randomizeWeights();
+		mNeuralNetwork.setLearningRule(new ResilientPropagation());
+		//mNeuralNetwork.setLearningRule(new BackPropagation());
+		mNeuralNetwork.learn(tSet);
 		String file = Environment.getExternalStorageDirectory()
 				.getAbsolutePath() + "/myNN.nnet";
 		// mNeuralNetwork.save(file);
