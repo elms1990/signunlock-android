@@ -35,8 +35,9 @@ public class SignPreProcess {
 	double widthHeightRatio;
 
 	double[][] density;
-	double maxX = 0, minX = 99999999, maxY = 0, minY = 99999999;
-
+	double maxX = 0, minX = Double.MAX_VALUE, maxY = 0,
+			minY = Double.MAX_VALUE;
+	double maxDelta;
 	double[] numVectorsGeoCoords = new double[8];
 	double[] sizeVectorsGeoCoords = new double[8];
 
@@ -82,8 +83,8 @@ public class SignPreProcess {
 
 		for (DrawPoint dp : drawPoints) {
 			if (dp.action == MotionEvent.ACTION_MOVE) {
-				Point p = new Point((dp.x - minX) / (maxX - minX),
-						(dp.y - minY) / (maxY - minY));
+				Point p = new Point((dp.x - minX) / maxDelta, (dp.y - minY)
+						/ maxDelta);
 				points.add(p);
 			}
 		}
@@ -111,7 +112,7 @@ public class SignPreProcess {
 			if (p.y < minY)
 				minY = p.y;
 		}
-
+		maxDelta = Math.max((maxX - minX), (maxY - minY));
 		widthHeightRatio = (maxX - minX) / (maxY - minY);
 	}
 
@@ -187,7 +188,7 @@ public class SignPreProcess {
 
 				numVectorsGeoCoords[(int) geoCoord]++;
 				sizeVectorsGeoCoords[(int) geoCoord] += lastChangedPoint
-						.distanceTo(p1) / Math.max(maxX, maxY);
+						.distanceTo(p1) / maxDelta;
 
 				lastChangedPoint = p1;
 
@@ -205,21 +206,23 @@ public class SignPreProcess {
 		}
 		numXchanges = dcX;
 		numYChanges = dcY;
+		
+		for(int i=0; i<8; i++)
+			Log.d("VectorsDir:"+i,""+numVectorsGeoCoords[i]);
 
 	}
 
 	private void calcDensity() {
 		int[][] countdensity = new int[NUMGRID + 1][NUMGRID + 1];
 		density = new double[NUMGRID + 1][NUMGRID + 1];
-		double xSize = maxX / NUMGRID;
-		double ySize = maxY / NUMGRID;
+		double deltaSize = Math.max(maxX, maxY) / NUMGRID;
 
-		for (DrawPoint p : drawPoints) {
-			countdensity[(int) (p.x / xSize)][(int) (p.y / ySize)]++;
+		for (Point p : points) {
+			countdensity[(int) (p.x / deltaSize)][(int) (p.y / deltaSize)]++;
 		}
 
 		// normalize density
-		double maxD = 0, minD = 99999999;
+		double maxD = 0, minD = Double.MAX_VALUE;
 		for (int i = 0; i < NUMGRID; i++) {
 			for (int j = 0; j < NUMGRID; j++) {
 				if (countdensity[i][j] > maxD)
@@ -233,16 +236,6 @@ public class SignPreProcess {
 				density[i][j] = (countdensity[i][j] - minD) / (maxD - minD);
 			}
 		}
-
-		// print density
-		// for (int i = 0; i < NUMGRID; i++) {
-		// String line = "";
-		// for (int j = 0; j < NUMGRID; j++) {
-		// line += " " + String.format("%.4f", density[j][i]);
-		// }
-		// Log.d(TAG, line);
-		// }
-
 	}
 
 	private void amostratePoints() {
