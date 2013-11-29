@@ -96,8 +96,8 @@ public class ValidateSignatureActivity extends Activity {
 				.getFeatureVector();
 		double[] nnScore = mNNetwork.test(featureVector);
 
-		mBestScoreText.setText("Positive: " + nnScore[0]);
-		mLastScoreText.setText("Negative: " + nnScore[1]);
+		mBestScoreText.setText(String.format("Positive: %.4f", nnScore[0]));
+		mLastScoreText.setText(String.format("Negative: %.4f", nnScore[1]));
 
 		if (nnScore[0] > mThreshold && nnScore[0] > nnScore[1]) {
 			Toast.makeText(this, " Unlocked Device. ", Toast.LENGTH_SHORT)

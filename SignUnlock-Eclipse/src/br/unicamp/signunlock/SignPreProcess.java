@@ -13,10 +13,11 @@ import java.util.List;
  * Created by default on 10/09/13.
  */
 public class SignPreProcess {
+	
 
 	private static final String TAG = "PROCESS";
 
-	public static int AMSIZE = 10;
+	public static int AMSIZE = 25;
 	public static int NUMGRID = 10;
 
 	// determined experimentally
@@ -243,10 +244,11 @@ public class SignPreProcess {
 		amPoints = new double[2 * AMSIZE];
 		amVelocity = new double[AMSIZE];
 
-		if (AMSIZE < points.size() - 1)
-			return;
+		for(int i=0; i<AMSIZE; i++){
+			amPoints[i] = amPoints[2*i] = amVelocity[i] = 0;
+		}
 
-		for (int i = 0; i < AMSIZE; i++) {
+		for (int i = 0; i < Math.min(points.size()-2,AMSIZE); i++) {
 			amPoints[2 * i] = points.get(i * deltaAm).x;
 			amPoints[2 * i + 1] = points.get(i * deltaAm).y;
 			amVelocity[i] = velocity.get(i * deltaAm).doubleValue();

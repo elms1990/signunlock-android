@@ -1,23 +1,20 @@
 package br.unicamp.signunlock;
 
-import android.content.Context;
-import android.os.Environment;
-import android.util.Log;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
 
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.learning.SupervisedTrainingElement;
 import org.neuroph.core.learning.TrainingElement;
 import org.neuroph.core.learning.TrainingSet;
 import org.neuroph.nnet.MultiLayerPerceptron;
-import org.neuroph.nnet.Perceptron;
-import org.neuroph.nnet.learning.BackPropagation;
-import org.neuroph.nnet.learning.DynamicBackPropagation;
 import org.neuroph.nnet.learning.ResilientPropagation;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.List;
+import android.content.Context;
+import android.os.Environment;
+import android.util.Log;
 
 public class SignatureNeuralNetwork {
 	private NeuralNetwork mNeuralNetwork;
@@ -34,13 +31,14 @@ public class SignatureNeuralNetwork {
 
 		Log.d("NEURAL NETWORK", "Input:" + numInput + " Output:" + numOutput);
 
-		loadTrainingSet("myFakeTrain.csv");
+		loadTrainingSet("myNewFakeTrain.csv");
+		
 		Log.d("LOADED", "FAKETRAIN");
 
 		constructTraining(features, classes);
 
 		String file = Environment.getExternalStorageDirectory()
-				.getAbsolutePath() + "/myFakeTrain.csv";
+				.getAbsolutePath() + "/myNewFakeTrain.csv";
 		tSet.saveAsTxt(file, ",");
 
 		Log.d("SAVEDSIGS", file + " NumTrain:" + tSet.size());
@@ -61,8 +59,8 @@ public class SignatureNeuralNetwork {
 				String[] feats = mLine.split(",");
 				double[] fv = new double[feats.length - 2];
 				double[] classI = new double[2];
-				classI[0] = Double.parseDouble(feats[feats.length - 2]);
-				classI[1] = Double.parseDouble(feats[feats.length - 1]);
+				classI[0] = 0;//Double.parseDouble(feats[feats.length - 2]);
+				classI[1] = 1;//Double.parseDouble(feats[feats.length - 1]);
 
 				for (int i = 0; i < feats.length - 2; i++) {
 					fv[i] = Double.parseDouble(feats[i]);
